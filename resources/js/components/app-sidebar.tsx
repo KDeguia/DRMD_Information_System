@@ -4,7 +4,21 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import {
+    BookOpen,
+    Dot,
+    FileCheck,
+    FileClock,
+    FileCog,
+    FileInput,
+    FileOutput,
+    FilePen,
+    FilePlus,
+    Folder,
+    HandHelping,
+    LayoutGrid,
+    ShieldEllipsisIcon,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -12,6 +26,82 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         url: '/dashboard',
         icon: LayoutGrid,
+    },
+
+    {
+        title: 'Request',
+        url: '#',
+        icon: HandHelping,
+        isActive: true,
+        items: [
+            {
+                title: 'New Request',
+                url: '/new_request',
+                icon: FilePlus,
+            },
+
+            {
+                title: 'Queue Request',
+                url: '/queue_request',
+                icon: FileClock,
+            },
+
+            {
+                title: 'For Recommendations',
+                url: '/for_recommendations',
+                icon: FileInput,
+            },
+
+            {
+                title: 'On Process',
+                url: '/on_process',
+                icon: FileCog,
+            },
+
+            {
+                title: 'Pending for Release',
+                url: '/pending_release',
+                icon: FileOutput,
+            },
+
+            {
+                title: 'Released',
+                url: '/released',
+                icon: FileCheck,
+            },
+
+            {
+                title: 'Report',
+                url: '/report',
+                icon: FilePen,
+            },
+        ],
+    },
+
+    {
+        title: 'Admin Access Control',
+        url: '#',
+        icon: ShieldEllipsisIcon,
+        isActive: true,
+        items: [
+            {
+                title: 'User Accounts',
+                url: '/user_accounts',
+                icon: Dot,
+            },
+
+            {
+                title: 'Web Page Control',
+                url: '/web_page_control',
+                icon: Dot,
+            },
+
+            {
+                title: 'Report',
+                url: '/for_report',
+                icon: Dot,
+            },
+        ],
     },
 ];
 
