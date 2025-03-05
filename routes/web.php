@@ -12,15 +12,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::get('new_request', function () {
-        return Inertia::render('new_request');
-    })->name('new request');
-
-        Route::get('queue_request', function () {
-        return Inertia::render('queue_request');
-    })->name('queue request');
+    Route::get('for_recommendation', function () {
+        return Inertia::render('for_recommendation');
+    })->name('for_recommendation');
 });
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
-require __DIR__.'/request.php';
+require __DIR__.'/requests.php';

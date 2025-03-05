@@ -55,30 +55,32 @@ export default function DisasterRequestForm() {
     };
 
     return (
-        <Card className="mx-auto w-full max-w-2xl p-6">
+        <Card className="mx-auto w-full max-w-3xl p-6">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className="space-y-4">
                     {/* Date of Request */}
                     <div>
                         <Label>Date of Request</Label>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="outline">
-                                    {date ? format(date, 'dd/MM/yyyy') : 'dd/mm/yyyy'}
-                                    <CalendarIcon className="ml-2" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                <Calendar
-                                    mode="single"
-                                    selected={date}
-                                    onSelect={(d) => {
-                                        setDate(d);
-                                        setValue('date', d);
-                                    }}
-                                />
-                            </PopoverContent>
-                        </Popover>
+                        <div>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline">
+                                        {date ? format(date, 'dd/MM/yyyy') : 'dd/mm/yyyy'}
+                                        <CalendarIcon className="ml-2" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <Calendar
+                                        mode="single"
+                                        selected={date}
+                                        onSelect={(d) => {
+                                            setDate(d);
+                                            setValue('date', d);
+                                        }}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
                     </div>
 
                     {/* Disaster Type & Request To */}
@@ -156,7 +158,7 @@ export default function DisasterRequestForm() {
                     </div>
 
                     {/* Mode of Transport */}
-                    <div>
+                    <div className="grid-col-3 grid gap-1">
                         <Label>Mode of Transportation</Label>
                         <Select {...register('transportMode')}>
                             <SelectTrigger>
@@ -170,7 +172,7 @@ export default function DisasterRequestForm() {
                     </div>
 
                     {/* File Uploads */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-3 gap-4">
                         <div>
                             <Label>Attach Feedback Report</Label>
                             <Input type="file" {...register('feedbackReport')} />
@@ -182,7 +184,7 @@ export default function DisasterRequestForm() {
                     </div>
                 </CardContent>
 
-                <CardFooter className="flex justify-end p-6">
+                <CardFooter className="flex justify-end gap-4 p-6">
                     <Button variant="outline" type="reset">
                         Clear
                     </Button>
