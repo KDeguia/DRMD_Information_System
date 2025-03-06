@@ -36,19 +36,19 @@ const mainNavItems: NavItem[] = [
         items: [
             {
                 title: 'New Request',
-                url: 'new_request',
+                url: '/new_request',
                 icon: FilePlus,
             },
 
             {
                 title: 'Queue Request',
-                url: 'queue_request',
+                url: '/queue_request',
                 icon: FileClock,
             },
 
             {
                 title: 'For Recommendations',
-                url: 'for_recommendation',
+                url: '/for_recommendation',
                 icon: FileInput,
             },
 

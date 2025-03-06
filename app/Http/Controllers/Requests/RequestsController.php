@@ -21,5 +21,10 @@ class RequestsController extends Controller
         return Inertia::render('requests/queue_request');
     }
 
+        public function for_recommendation(): Response
+    {
+        return Inertia::render('requests/for_recommendation');
+    }
+
 
 }

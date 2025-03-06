@@ -4,8 +4,12 @@ import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'Request',
+        href: '#',
+    },
+    {
+        title: 'For Recommendations',
+        href: '/for_recommendation',
     },
 ];
 
