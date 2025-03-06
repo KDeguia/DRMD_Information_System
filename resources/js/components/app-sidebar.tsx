@@ -6,7 +6,6 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     BookOpen,
-    Dot,
     FileCheck,
     FileClock,
     FileCog,
@@ -17,7 +16,9 @@ import {
     Folder,
     HandHelping,
     LayoutGrid,
+    MonitorCog,
     ShieldEllipsisIcon,
+    UserRoundPlus,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -87,19 +88,19 @@ const mainNavItems: NavItem[] = [
             {
                 title: 'User Accounts',
                 url: '/user_accounts',
-                icon: Dot,
+                icon: UserRoundPlus,
             },
 
             {
                 title: 'Web Page Control',
                 url: '/web_page_control',
-                icon: Dot,
+                icon: MonitorCog,
             },
 
             {
                 title: 'Report',
                 url: '/for_report',
-                icon: Dot,
+                icon: FilePen,
             },
         ],
     },

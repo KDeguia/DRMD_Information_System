@@ -41,5 +41,10 @@ class RequestsController extends Controller
         return Inertia::render('requests/released');
     }
 
+        public function report(): Response
+    {
+        return Inertia::render('requests/report');
+    }
+
 
 }

@@ -15,5 +15,6 @@ Route::middleware('auth')->group(function () {
     Route::get('on_process', [RequestsController::class, 'on_process'])->name('on_process.request');
     Route::get('pending_release', [RequestsController::class, 'pending_release'])->name('pending_release.request');
     Route::get('released', [RequestsController::class, 'released'])->name('released.request');
+    Route::get('report', [RequestsController::class, 'report'])->name('report.request');
 
 });
