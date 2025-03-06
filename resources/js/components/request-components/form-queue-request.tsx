@@ -499,7 +499,7 @@ export default function RequestTable() {
     };
 
     return (
-        <div className="rounded-lg border p-4 shadow-sm">
+        <div className="rounded-lg border p-6 shadow-sm">
             <div className="flex items-center justify-start pb-4">
                 <Button variant="default">+ New</Button>
             </div>

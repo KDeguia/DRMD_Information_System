@@ -9,7 +9,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '#',
     },
     {
-        title: 'For Recommendations',
+        title: 'For Recommendation',
         href: '/for_recommendation',
     },
 ];
