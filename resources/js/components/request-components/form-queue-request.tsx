@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Pagination, PaginationContent, PaginationItem, PaginationLink } from '@/components/ui/pagination';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { MoreHorizontal } from 'lucide-react';
@@ -29,7 +29,413 @@ const requests = [
         status: 'Pending',
         validated: false,
     },
-
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
+    {
+        requestNo: 'RN-2022-09-20-0014',
+        date: '2022-09-20',
+        requestedBy: 'Mexico, Pampanga',
+        disasterType: 'Sample Purpose',
+        particular: 'Family Food Pack',
+        quantity: 100,
+        purpose: 'Sample Purpose',
+        status: 'Pending',
+        validated: false,
+    },
     {
         requestNo: 'RN-2022-09-20-0014',
         date: '2022-09-20',
@@ -85,6 +491,12 @@ export default function RequestTable() {
     const indexOfLastEntry = currentPage * entriesPerPage;
     const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
     const currentEntries = requests.slice(indexOfFirstEntry, indexOfLastEntry);
+
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
 
     return (
         <div className="rounded-lg border p-4 shadow-sm">
@@ -152,13 +564,27 @@ export default function RequestTable() {
             <div className="flex justify-end pt-4">
                 <Pagination>
                     <PaginationContent>
-                        {Array.from({ length: totalPages }, (_, i) => (
-                            <PaginationItem key={i}>
-                                <PaginationLink isActive={currentPage === i + 1} onClick={() => setCurrentPage(i + 1)}>
-                                    {i + 1}
-                                </PaginationLink>
-                            </PaginationItem>
-                        ))}
+                        <PaginationItem>
+                            <PaginationLink onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                                Previous
+                            </PaginationLink>
+                        </PaginationItem>
+                        {currentPage > 2 && <PaginationEllipsis />}
+                        {Array.from({ length: totalPages }, (_, i) => i + 1)
+                            .filter((page) => page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1))
+                            .map((page) => (
+                                <PaginationItem key={page}>
+                                    <PaginationLink isActive={currentPage === page} onClick={() => handlePageChange(page)}>
+                                        {page}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            ))}
+                        {currentPage < totalPages - 1 && <PaginationEllipsis />}
+                        <PaginationItem>
+                            <PaginationLink onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                                Next
+                            </PaginationLink>
+                        </PaginationItem>
                     </PaginationContent>
                 </Pagination>
             </div>
