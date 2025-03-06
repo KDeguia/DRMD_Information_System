@@ -18,8 +18,7 @@ export default function New_Request() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="New Requests" />
-
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-6">
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl bg-gray-100 p-6 dark:bg-gray-950">
                 <DisasterRequestForm />
             </div>
         </AppLayout>

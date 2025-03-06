@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -499,7 +500,7 @@ export default function RequestTable() {
     };
 
     return (
-        <div className="rounded-lg border p-6 shadow-sm">
+        <Card className="rounded-lg border p-6 shadow-sm">
             <div className="flex items-center justify-between pb-4">
                 <Select onValueChange={(value) => setEntriesPerPage(Number(value))}>
                     <SelectTrigger className="w-30">
@@ -585,6 +586,6 @@ export default function RequestTable() {
                     </PaginationContent>
                 </Pagination>
             </div>
-        </div>
+        </Card>
     );
 }

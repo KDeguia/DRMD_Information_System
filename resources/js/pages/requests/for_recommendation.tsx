@@ -18,7 +18,7 @@ export default function For_Recommendation() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="For Recommendation" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-6">
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl bg-gray-100 p-6 dark:bg-gray-950">
                 <RequestTable />
             </div>
         </AppLayout>
