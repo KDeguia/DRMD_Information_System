@@ -12,5 +12,8 @@ Route::middleware('auth')->group(function () {
     Route::get('new_request', [RequestsController::class, 'create_request'])->name('new.request');
     Route::get('queue_request', [RequestsController::class, 'queue_request'])->name('queue.request');
     Route::get('for_recommendation', [RequestsController::class, 'for_recommendation'])->name('for_recommendation.request');
+    Route::get('on_process', [RequestsController::class, 'on_process'])->name('on_process.request');
+    Route::get('pending_release', [RequestsController::class, 'pending_release'])->name('pending_release.request');
+    Route::get('released', [RequestsController::class, 'released'])->name('released.request');
 
 });

@@ -5,7 +5,7 @@ import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Request',
+        title: 'Requests',
         href: '#',
     },
     {
@@ -14,11 +14,10 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function New_Request() {
+export default function Queue_Request() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Queue Requests" />
-
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-6">
                 <RequestQueueTable />
             </div>

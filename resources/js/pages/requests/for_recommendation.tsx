@@ -1,10 +1,11 @@
+import RequestTable from '@/components/request-components/forms-table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Request',
+        title: 'Requests',
         href: '#',
     },
     {
@@ -13,11 +14,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Dashboard() {
+export default function For_Recommendation() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
-            <div>For Recommendation</div>
+            <Head title="For Recommendation" />
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-6">
+                <RequestTable />
+            </div>
         </AppLayout>
     );
 }

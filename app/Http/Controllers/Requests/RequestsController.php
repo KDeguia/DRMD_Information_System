@@ -26,5 +26,20 @@ class RequestsController extends Controller
         return Inertia::render('requests/for_recommendation');
     }
 
+        public function on_process(): Response
+    {
+        return Inertia::render('requests/on_process');
+    }
+
+        public function pending_release(): Response
+    {
+        return Inertia::render('requests/pending_release');
+    }
+
+        public function released(): Response
+    {
+        return Inertia::render('requests/released');
+    }
+
 
 }

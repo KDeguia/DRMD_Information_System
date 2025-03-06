@@ -5,7 +5,7 @@ import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Request',
+        title: 'Requests',
         href: '#',
     },
     {
@@ -17,7 +17,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function New_Request() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Requests" />
+            <Head title="New Requests" />
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-6">
                 <DisasterRequestForm />

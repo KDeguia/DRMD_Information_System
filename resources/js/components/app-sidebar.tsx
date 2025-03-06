@@ -29,7 +29,7 @@ const mainNavItems: NavItem[] = [
     },
 
     {
-        title: 'Request',
+        title: 'Requests',
         url: '#',
         icon: HandHelping,
         isActive: true,
