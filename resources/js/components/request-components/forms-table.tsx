@@ -564,7 +564,7 @@ export default function RequestTable() {
                     <PaginationContent>
                         <PaginationItem>
                             <PaginationLink onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                                Previous
+                                Prev
                             </PaginationLink>
                         </PaginationItem>
                         {currentPage > 2 && <PaginationEllipsis />}

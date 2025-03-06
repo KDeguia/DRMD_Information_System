@@ -39,36 +39,42 @@ const mainNavItems: NavItem[] = [
                 title: 'New Request',
                 url: '/new_request',
                 icon: FilePlus,
+                badge: '',
             },
 
             {
                 title: 'Queue Request',
                 url: '/queue_request',
                 icon: FileClock,
+                badge: '3',
             },
 
             {
-                title: 'For Recommendations',
+                title: 'Recommendations',
                 url: '/for_recommendation',
                 icon: FileInput,
+                badge: '2',
             },
 
             {
                 title: 'On Process',
                 url: '/on_process',
                 icon: FileCog,
+                badge: '5',
             },
 
             {
-                title: 'Pending for Release',
+                title: 'Pending Release',
                 url: '/pending_release',
                 icon: FileOutput,
+                badge: '1',
             },
 
             {
                 title: 'Released',
                 url: '/released',
                 icon: FileCheck,
+                badge: '5',
             },
 
             {
@@ -133,7 +139,6 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-
             <SidebarContent>
                 <NavMain items={mainNavItems} />
             </SidebarContent>

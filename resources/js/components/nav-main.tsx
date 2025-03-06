@@ -42,6 +42,9 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                     <SidebarMenuButton onClick={() => toggleMenu(item.title)} isActive={isActive}>
                                         {item.icon && <item.icon className="mr-2" />}
                                         <span>{item.title}</span>
+                                        {item.badge && (
+                                            <span className="ml-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white">{item.badge}</span>
+                                        )}
                                         {isExpanded ? <ChevronDown className="ml-auto" /> : <ChevronRight className="ml-auto" />}
                                     </SidebarMenuButton>
                                 ) : (
@@ -49,6 +52,9 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                         <Link href={item.url!} prefetch>
                                             {item.icon && <item.icon className="mr-2" />}
                                             <span>{item.title}</span>
+                                            {item.badge && (
+                                                <span className="ml-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white">{item.badge}</span>
+                                            )}
                                         </Link>
                                     </SidebarMenuButton>
                                 )}
@@ -63,6 +69,11 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                                 <Link href={child.url!} prefetch>
                                                     {child.icon && <child.icon className="mr-2" />}
                                                     <span>{child.title}</span>
+                                                    {child.badge && (
+                                                        <span className="ml-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
+                                                            {child.badge}
+                                                        </span>
+                                                    )}
                                                 </Link>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
