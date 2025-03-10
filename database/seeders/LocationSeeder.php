@@ -14,7 +14,7 @@ class LocationSeeder extends Seeder
     public function run(): void
     {
           // Path to the SQL file
-          $filePath = storage_path('location.sql');
+          $filePath = storage_path('ph_address.sql');
 
           // Read the SQL file
           $sql = file_get_contents($filePath);

@@ -16,6 +16,11 @@ class RequestsController extends Controller
         return Inertia::render('requests/new_request');
     }
 
+    public function save_request(): Response
+    {
+        return Inertia::render('requests/save_request');
+    }
+
         public function queue_request(): Response
     {
         return Inertia::render('requests/queue_request');

@@ -3,7 +3,7 @@ import { CircleCheck, ClockAlert, History, RefreshCw } from 'lucide-react';
 
 export default function Stat() {
     return (
-        <div className="grid gap-14 p-4 md:grid-cols-4">
+        <div className="grid gap-6 p-2 md:grid-cols-4">
             {/* Stats Cards */}
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

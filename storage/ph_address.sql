@@ -1,4 +1,4 @@
-INSERT INTO `locations` VALUES (1,'Region III (Central Luzon)',NULL,NULL,NULL,300000000,NULL,NULL),
+INSERT INTO `ph_address` VALUES (1,'Region III (Central Luzon)',NULL,NULL,NULL,300000000,NULL,NULL),
 	(2,'Region III (Central Luzon)','Bataan',NULL,NULL,300800000,NULL,NULL),
 	(3,'Region III (Central Luzon)','Bataan','Abucay',NULL,300801000,NULL,NULL),
 	(4,'Region III (Central Luzon)','Bataan','Abucay','Bangkal',300801001,NULL,NULL),

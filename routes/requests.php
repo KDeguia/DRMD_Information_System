@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Requests\RequestsController;
+use App\Http\Controllers\AddressController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,4 +18,10 @@ Route::middleware('auth')->group(function () {
     Route::get('released', [RequestsController::class, 'released'])->name('released.request');
     Route::get('report', [RequestsController::class, 'report'])->name('report.request');
 
-});
+    Route::get('/provinces', [AddressController::class, 'getProvinces']);
+    Route::get('/municipalities/{province}', [AddressController::class, 'getMunicipalities']);
+    Route::get('/barangays/{municipality}', [AddressController::class, 'getBarangays']);
+}
+
+
+);

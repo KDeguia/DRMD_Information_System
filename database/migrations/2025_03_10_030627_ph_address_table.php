@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('ph_address', function (Blueprint $table) {
             $table->id();
-            $table->string('region');
-            $table->string('province');
-            $table->string('municipality');
-            $table->string('barangay');
-            $table->string('psgc');
+            $table->string('region')->nullable();
+            $table->string('province')->nullable();
+            $table->string('municipality')->nullable();
+            $table->string('barangay')->nullable();
+            $table->string('psgc')->nullable();
             $table->timestamps();
         });
     }
