@@ -44,7 +44,7 @@ export default function DisasterRequestForm() {
         formState: { errors },
     } = useForm({
         resolver: zodResolver(formSchema),
-        defaultValues: { assistance: [{ type: '', item: '', quantity: 1 }] },
+        defaultValues: { assistance: [{ type: '', item: '', quantity: 0 }] },
     });
 
     const { fields, append, remove } = useFieldArray({ control, name: 'assistance' });
@@ -92,15 +92,35 @@ export default function DisasterRequestForm() {
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
                                 <SelectContent>
+                                    <SelectItem value="armed conflict">Armed Conflict</SelectItem>
+                                    <SelectItem value="covid-19">COVID-19</SelectItem>
+                                    <SelectItem value="drought - dry spell">Drought - Dry Spell</SelectItem>
                                     <SelectItem value="earthquake">Earthquake</SelectItem>
-                                    <SelectItem value="flood">Flood</SelectItem>
+                                    <SelectItem value="el niño">El Niño</SelectItem>
+                                    <SelectItem value="fire incident">Fire Incident</SelectItem>
+                                    <SelectItem value="flash flood">Flash Flood</SelectItem>
+                                    <SelectItem value="flooding">Flooding</SelectItem>
+                                    <SelectItem value="heavy rain">Heavy Rain</SelectItem>
+                                    <SelectItem value="low pressure area">Low Pressure Area</SelectItem>
+                                    <SelectItem value="landslide">Landslide</SelectItem>
+                                    <SelectItem value="northeast monsoon">Northeast Monsoon</SelectItem>
+                                    <SelectItem value="oil spill">Oil Spill</SelectItem>
+                                    <SelectItem value="severe tropical storm">Severe Tropical Storm</SelectItem>
+                                    <SelectItem value="social disorganization">Social Disorganization</SelectItem>
+                                    <SelectItem value="southwest moonson">Southwest Monsoon</SelectItem>
+                                    <SelectItem value="storm surge">Storm Surge</SelectItem>
+                                    <SelectItem value="strong wind">Strong Wind</SelectItem>
+                                    <SelectItem value="tornado">Tornado</SelectItem>
+                                    <SelectItem value="tropical depresssion">Tropical Depression</SelectItem>
+                                    <SelectItem value="tropical storm">Tropical Storm</SelectItem>
+                                    <SelectItem value="Typhoon">Typhoon</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div>
+                        {/* <div>
                             <Label>Request to</Label>
                             <Input {...register('requestTo')} defaultValue="Region III - Central Luzon" readOnly />
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Location */}
