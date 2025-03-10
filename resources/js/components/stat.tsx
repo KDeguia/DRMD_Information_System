@@ -21,7 +21,7 @@ export default function Stat() {
                     <RefreshCw className="h-12 w-12 text-blue-500" />
                 </CardHeader>
                 <CardContent>
-                    <p className="text-2xl font-bold text-blue-500">$23,456</p>
+                    <p className="text-2xl font-bold text-blue-500">23,456</p>
                 </CardContent>
             </Card>
 
