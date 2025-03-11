@@ -133,7 +133,7 @@ export default function Posts() {
                             ) : (
                                 <TableRow>
                                     <TableCell colSpan={13} className="text-center text-gray-500">
-                                        No posts found.
+                                        No request found.
                                     </TableCell>
                                 </TableRow>
                             )}
