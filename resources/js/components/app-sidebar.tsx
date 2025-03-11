@@ -44,7 +44,7 @@ const mainNavItems: NavItem[] = [
 
             {
                 title: 'Queue Request',
-                url: '/queue_request',
+                url: '/posts',
                 icon: FileClock,
                 badge: '3',
             },
