@@ -77,7 +77,7 @@ export default function PostFormModal({ isOpen, closeModal, post }: Props) {
                 const isUpdating = !!post?.id;
 
                 toast.success(
-                    isUpdating ? 'Post updated successfully!' : 'Post created successfully!',
+                    isUpdating ? 'Request updated successfully!' : 'Request created successfully!',
                     isUpdating
                         ? {
                               icon: <CircleCheck className="h-5 w-5 text-blue-500" />,
@@ -103,7 +103,7 @@ export default function PostFormModal({ isOpen, closeModal, post }: Props) {
             <DialogContent className="sm:max-w-lg">
                 <DialogHeader>
                     <DialogTitle>{post ? 'Edit Request' : 'Add New Request'}</DialogTitle>
-                    <DialogDescription>{post ? 'Update the post details below.' : 'Fill out the form to create a new post.'}</DialogDescription>
+                    <DialogDescription>{post ? 'Update the post details below.' : 'Fill out the form to create a new request.'}</DialogDescription>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">

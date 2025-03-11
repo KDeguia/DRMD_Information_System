@@ -147,7 +147,7 @@ export default function Posts() {
                 <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle>Are you sure you want to delete this post?</AlertDialogTitle>
+                            <AlertDialogTitle>Are you sure you want to delete this request?</AlertDialogTitle>
                         </AlertDialogHeader>
                         <p>This action cannot be undone.</p>
                         <AlertDialogFooter>

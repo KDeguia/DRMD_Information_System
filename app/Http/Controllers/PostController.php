@@ -13,7 +13,7 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    
+
     public function index(): Response
     {
         return Inertia::render('Posts', [
@@ -32,9 +32,9 @@ class PostController extends Controller
             'content' => 'required|string',
             'picture' => 'nullable|image|max:2048', // Validate that picture is an image
         ]);
-    
+
         $data = $request->only(['title', 'content']);
-    
+
         if ($request->hasFile('picture')) {
             $file = $request->file('picture');
             $filename = time() . '_' . $file->getClientOriginalName();
@@ -42,12 +42,12 @@ class PostController extends Controller
             $path = $file->storeAs('uploads', $filename, 'public');
             $data['picture'] = '/storage/' . $path;
         }
-    
+
         Post::create($data);
-    
-        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+
+        return redirect()->route('posts.index')->with('success', 'Request created successfully.');
     }
-    
+
     public function update(Request $request, Post $post)
     {
         $request->validate([
@@ -55,22 +55,22 @@ class PostController extends Controller
             'content' => 'required|string',
             'picture' => 'nullable|image|max:2048',
         ]);
-    
+
         $data = $request->only(['title', 'content']);
-    
+
         if ($request->hasFile('picture')) {
             $file = $request->file('picture');
             $filename = time() . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('uploads', $filename, 'public');
             $data['picture'] = '/storage/' . $path;
         }
-    
+
         $post->update($data);
-    
-        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+
+        return redirect()->route('posts.index')->with('success', 'Request updated successfully.');
     }
-    
-    
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -79,7 +79,7 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+        return redirect()->route('posts.index')->with('success', 'Request deleted successfully.');
     }
 
     /**
@@ -93,7 +93,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-     
+
 
     /**
      * Display the specified resource.
@@ -114,10 +114,10 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-     
+
 
     /**
      * Remove the specified resource from storage.
      */
-  
+
 }
