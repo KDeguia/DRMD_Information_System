@@ -4,6 +4,7 @@ import {
     AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
+    AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
@@ -148,8 +149,14 @@ export default function Posts() {
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>Are you sure you want to delete this request?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete the request and remove its data from our servers.
+                            </AlertDialogDescription>
                         </AlertDialogHeader>
-                        <p>This action cannot be undone.</p>
+
+                        {/* You can remove this <p> if it's now redundant with the description */}
+                        {/* <p>This action cannot be undone.</p> */}
+
                         <AlertDialogFooter>
                             <AlertDialogCancel disabled={isDeleting} onClick={() => setDeleteDialogOpen(false)}>
                                 Cancel

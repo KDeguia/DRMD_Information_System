@@ -103,7 +103,7 @@ export default function PostFormModal({ isOpen, closeModal, post }: Props) {
             <DialogContent className="sm:max-w-lg">
                 <DialogHeader>
                     <DialogTitle>{post ? 'Edit Request' : 'Add New Request'}</DialogTitle>
-                    <DialogDescription>{post ? 'Update the post details below.' : 'Fill out the form to create a new request.'}</DialogDescription>
+                    <DialogDescription>{post ? 'Update the request details below.' : 'Fill out the form to create a new request.'}</DialogDescription>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">
