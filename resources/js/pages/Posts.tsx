@@ -1,4 +1,6 @@
 import PostFormModal from '@/components/PostFormModal';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -113,24 +115,31 @@ export default function Posts() {
                             <Button asChild variant="default">
                                 <Link href="/new_request">+ New</Link>
                             </Button>
-                            <select
-                                value={entriesPerPage}
-                                onChange={handleEntriesChange}
-                                className="border-input bg-background ring-offset-background focus-visible:ring-ring ml-4 rounded-md border px-2 py-1 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                            <Select
+                                value={entriesPerPage.toString()}
+                                onValueChange={(value) => {
+                                    setEntriesPerPage(Number(value));
+                                    setCurrentPage(1);
+                                }}
                             >
-                                {[5, 10, 20, 30, 50, 100].map((number) => (
-                                    <option key={number} value={number}>
-                                        Entries {number}
-                                    </option>
-                                ))}
-                            </select>
+                                <SelectTrigger className="ml-4 w-[150px]">
+                                    <SelectValue placeholder="Entries" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {[5, 10, 20, 30, 50, 100].map((number) => (
+                                        <SelectItem key={number} value={number.toString()}>
+                                            Entries {number}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                         </div>
 
                         {/* Search box */}
                         <div className="w-full md:max-w-xs">
                             <input
                                 type="text"
-                                placeholder="Search posts..."
+                                placeholder="Search request..."
                                 value={searchQuery}
                                 onChange={(e) => {
                                     setSearchQuery(e.target.value);
