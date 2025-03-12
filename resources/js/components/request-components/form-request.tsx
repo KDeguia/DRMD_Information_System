@@ -392,11 +392,8 @@ export default function PostNewRequest({ post }: Props) {
                 </div>
             )}
             <div className="mt-4 flex justify-end gap-4">
-                <Button type="button" variant="outline">
-                    Clear
-                </Button>
                 <Button type="button" variant="secondary">
-                    Cancel
+                    Clear
                 </Button>
                 <Button type="submit">{post ? 'Update' : 'Create'}</Button>
             </div>

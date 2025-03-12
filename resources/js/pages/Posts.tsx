@@ -41,6 +41,10 @@ export default function Posts() {
     const [postToDelete, setPostToDelete] = useState<number | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
 
+    const [entriesPerPage, setEntriesPerPage] = useState(5);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState('');
+
     const openModal = (post = null) => {
         setSelectedPost(post);
         setIsModalOpen(true);
@@ -74,17 +78,70 @@ export default function Posts() {
         });
     };
 
+    // Filter posts based on search
+    const filteredPosts = posts.filter((post) => {
+        const query = searchQuery.toLowerCase();
+        return post.title.toLowerCase().includes(query) || post.content.toLowerCase().includes(query);
+    });
+
+    const totalPages = Math.ceil(filteredPosts.length / entriesPerPage);
+    const startIndex = (currentPage - 1) * entriesPerPage;
+    const endIndex = startIndex + entriesPerPage;
+    const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+    const goToPreviousPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
+
+    const goToNextPage = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    };
+
+    const handleEntriesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setEntriesPerPage(Number(e.target.value));
+        setCurrentPage(1);
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Posts" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl bg-gray-100 p-6 dark:bg-gray-950">
                 <Card className="rounded-lg border p-6 shadow-sm">
-                    <div className="item-center flex justify-items-start pb-4">
-                        <Button asChild variant="default">
-                            <Link href="/new_request">+ New</Link>
-                        </Button>
+                    {/* Top bar: New button, Entries dropdown, Search */}
+                    <div className="flex flex-col gap-4 pb-4 md:flex-row md:items-center md:justify-between">
+                        <div className="flex items-center gap-2">
+                            <Button asChild variant="default">
+                                <Link href="/new_request">+ New</Link>
+                            </Button>
+                            <select
+                                value={entriesPerPage}
+                                onChange={handleEntriesChange}
+                                className="border-input bg-background ring-offset-background focus-visible:ring-ring ml-4 rounded-md border px-2 py-1 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                            >
+                                {[5, 10, 20, 30, 50, 100].map((number) => (
+                                    <option key={number} value={number}>
+                                        Entries {number}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* Search box */}
+                        <div className="w-full md:max-w-xs">
+                            <input
+                                type="text"
+                                placeholder="Search posts..."
+                                value={searchQuery}
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value);
+                                    setCurrentPage(1);
+                                }}
+                                className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                            />
+                        </div>
                     </div>
 
+                    {/* Table */}
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -104,8 +161,8 @@ export default function Posts() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {posts.length ? (
-                                posts.map((post) => (
+                            {paginatedPosts.length ? (
+                                paginatedPosts.map((post) => (
                                     <TableRow key={post.id}>
                                         <TableCell>
                                             {post.picture ? (
@@ -139,6 +196,69 @@ export default function Posts() {
                             )}
                         </TableBody>
                     </Table>
+
+                    {/* Pagination Controls */}
+                    {totalPages > 1 && (
+                        <div className="mt-6 flex items-center justify-center gap-2">
+                            <Button variant="outline" size="sm" onClick={goToPreviousPage} disabled={currentPage === 1}>
+                                Previous
+                            </Button>
+
+                            <div className="text-muted-foreground flex items-center gap-1 text-sm">
+                                <Button
+                                    variant={currentPage === 1 ? 'default' : 'outline'}
+                                    size="icon"
+                                    className="h-8 w-8"
+                                    onClick={() => setCurrentPage(1)}
+                                >
+                                    1
+                                </Button>
+
+                                {currentPage > 4 && <span className="text-muted-foreground px-1">...</span>}
+
+                                {(() => {
+                                    const pageButtons = [];
+                                    const startPage = currentPage >= totalPages - 2 ? totalPages - 2 : Math.max(2, currentPage - 1);
+                                    const endPage = Math.min(totalPages - 1, startPage + 2);
+
+                                    for (let i = startPage; i <= endPage; i++) {
+                                        if (i > 1 && i < totalPages) {
+                                            pageButtons.push(
+                                                <Button
+                                                    key={i}
+                                                    variant={currentPage === i ? 'default' : 'outline'}
+                                                    size="icon"
+                                                    className="h-8 w-8"
+                                                    onClick={() => setCurrentPage(i)}
+                                                >
+                                                    {i}
+                                                </Button>,
+                                            );
+                                        }
+                                    }
+
+                                    return pageButtons;
+                                })()}
+
+                                {currentPage < totalPages - 3 && <span className="text-muted-foreground px-1">...</span>}
+
+                                {totalPages > 1 && (
+                                    <Button
+                                        variant={currentPage === totalPages ? 'default' : 'outline'}
+                                        size="icon"
+                                        className="h-8 w-8"
+                                        onClick={() => setCurrentPage(totalPages)}
+                                    >
+                                        {totalPages}
+                                    </Button>
+                                )}
+                            </div>
+
+                            <Button variant="outline" size="sm" onClick={goToNextPage} disabled={currentPage === totalPages}>
+                                Next
+                            </Button>
+                        </div>
+                    )}
                 </Card>
 
                 {/* Post Form Modal */}
@@ -153,9 +273,6 @@ export default function Posts() {
                                 This action cannot be undone. This will permanently delete the request and remove its data from our servers.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
-
-                        {/* You can remove this <p> if it's now redundant with the description */}
-                        {/* <p>This action cannot be undone.</p> */}
 
                         <AlertDialogFooter>
                             <AlertDialogCancel disabled={isDeleting} onClick={() => setDeleteDialogOpen(false)}>
