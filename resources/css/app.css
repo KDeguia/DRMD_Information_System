@@ -163,6 +163,8 @@
 
 .custom-swal-popup {
     border-radius: 25px !important; /* Adjust px value as you like */
+    font-family: 'Times New Roman', Times, serif !important;
+    font-weight: bold !important;
 }
 
 /* Optional: If you want to make the icon container round too */
