@@ -8,10 +8,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from '@inertiajs/react';
 import { format } from 'date-fns';
-import { CalendarIcon, CircleCheck, Plus, Trash } from 'lucide-react';
+import { CalendarIcon, Plus, Trash } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import Swal from 'sweetalert2';
 import { z } from 'zod';
 
 interface Post {
@@ -134,20 +135,23 @@ export default function PostNewRequest({ post }: Props) {
 
         router.post(url, data, {
             onSuccess: () => {
-                const isUpdating = !!post?.id;
+                // const isUpdating = !!post?.id;
 
-                toast.success(
-                    isUpdating ? 'Request updated successfully!' : 'Request created successfully!',
-                    isUpdating
-                        ? {
-                              icon: <CircleCheck className="h-5 w-5 text-blue-500" />,
-                              style: {
-                                  backgroundColor: '#bfdbfe', // light blue (blue-200)
-                                  color: '#1e3a8a', // dark blue (blue-900)
-                              },
-                          }
-                        : undefined,
-                );
+                Swal.fire({
+                    title: 'Message!',
+                    text: 'Your request has been saved.',
+                    icon: 'success',
+                    confirmButtonText: 'Ok',
+                    background: '#a9a9a9',
+                    color: '#000000',
+                    confirmButtonColor: '#000000',
+                    timer: 2000, // <-- auto-close after 2 seconds
+                    timerProgressBar: true, // Optional: shows a progress bar at the top
+                    customClass: {
+                        popup: 'custom-swal-popup',
+                        icon: 'custom-icon-color',
+                    },
+                });
 
                 router.reload();
             },

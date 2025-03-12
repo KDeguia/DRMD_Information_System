@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\RequestModel;
 use Illuminate\Http\Request;
 
 class RequestsController extends Controller
@@ -18,7 +19,7 @@ class RequestsController extends Controller
     {
         return Inertia::render('requests/new_request', [
             // Fetch all posts (no user relation)
-            'new_request' => Post::all(),
+            'new_request' => RequestModel::all(),
         ]);
     }
 
@@ -43,12 +44,12 @@ class RequestsController extends Controller
             $data['picture'] = '/storage/' . $path;
         }
 
-        Post::create($data);
+        RequestModel::create($data);
 
         return redirect()->route('posts.index')->with('success', 'Request created successfully.');
     }
 
-    public function update(Request $request, Post $new_request)
+    public function update(Request $request, RequestModel $new_request)
     {
         $request->validate([
             'title'   => 'required|string|max:255',
@@ -75,7 +76,7 @@ class RequestsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $new_request)
+    public function destroy(RequestModel $new_request)
     {
         $new_request->delete();
 

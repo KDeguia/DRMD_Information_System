@@ -14,7 +14,7 @@ import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router, usePage } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -80,8 +80,8 @@ export default function Posts() {
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl bg-gray-100 p-6 dark:bg-gray-950">
                 <Card className="rounded-lg border p-6 shadow-sm">
                     <div className="item-center flex justify-items-start pb-4">
-                        <Button onClick={() => openModal()} variant="default">
-                            + New
+                        <Button asChild variant="default">
+                            <Link href="/new_request">+ New</Link>
                         </Button>
                     </div>
 

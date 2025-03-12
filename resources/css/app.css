@@ -148,6 +148,28 @@
     --sidebar-ring: oklch(0.439 0 0);
 }
 
+.swal2-icon.custom-icon-color.swal2-success {
+    color: #1dff09a1; /* Change icon color */
+    border-color: #1dff09a1;
+}
+
+.swal2-icon.custom-icon-color.swal2-success .swal2-success-ring {
+    border: 4px solid #1dff09a1; /* Circle color */
+}
+
+.swal2-icon.custom-icon-color.swal2-success [class^='swal2-success-line'] {
+    background-color: #1dff09a1; /* Checkmark color */
+}
+
+.custom-swal-popup {
+    border-radius: 25px !important; /* Adjust px value as you like */
+}
+
+/* Optional: If you want to make the icon container round too */
+.custom-icon-color {
+    border-radius: 50% !important;
+}
+
 @layer base {
     * {
         @apply border-border;
