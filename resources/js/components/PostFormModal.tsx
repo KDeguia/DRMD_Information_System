@@ -369,7 +369,7 @@ export default function PostFormModal({ isOpen, closeModal, post }: Props) {
                         </div>
                     </div>
 
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                         <label htmlFor="title" className="text-sm font-medium">
                             Title
                         </label>
@@ -395,7 +395,7 @@ export default function PostFormModal({ isOpen, closeModal, post }: Props) {
                             <p className="text-muted-foreground text-sm">Image Preview:</p>
                             <img src={preview} alt="Preview" className="h-32 w-32 rounded-md border object-cover" />
                         </div>
-                    )}
+                    )} */}
 
                     <DialogFooter className="mt-4 flex justify-end gap-2">
                         <Button type="button" variant="outline">

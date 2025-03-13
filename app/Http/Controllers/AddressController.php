@@ -25,7 +25,7 @@ class AddressController extends Controller
     }
 
     // Get municipalities by province
-    public function getMunicipalities(Request $request, $province)
+    public function getMunicipalities($province)
     {
         $municipalities = DB::table('ph_address')
             ->select('municipality')

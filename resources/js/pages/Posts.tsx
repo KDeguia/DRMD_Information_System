@@ -33,12 +33,18 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Posts() {
+    type Post = {
+        id: number;
+        title: string;
+        content: string;
+        picture?: string;
+    };
     const { posts } = usePage<{
         posts: { id: number; title: string; content: string; picture?: string }[];
     }>().props;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedPost, setSelectedPost] = useState(null);
+    const [selectedPost, setSelectedPost] = useState<Post | null>(null);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [postToDelete, setPostToDelete] = useState<number | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -47,7 +53,7 @@ export default function Posts() {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const openModal = (post = null) => {
+    const openModal = (post: Post | null) => {
         setSelectedPost(post);
         setIsModalOpen(true);
     };
@@ -123,7 +129,7 @@ export default function Posts() {
                                 }}
                             >
                                 <SelectTrigger className="ml-4 w-[150px]">
-                                    <SelectValue placeholder="Entries" />
+                                    <SelectValue placeholder="entries" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {[5, 10, 20, 30, 50, 100].map((number) => (
@@ -271,7 +277,14 @@ export default function Posts() {
                 </Card>
 
                 {/* Post Form Modal */}
-                <PostFormModal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} post={selectedPost} />
+                <PostFormModal
+                    isOpen={isModalOpen}
+                    closeModal={() => {
+                        setIsModalOpen(false);
+                        setSelectedPost(null);
+                    }}
+                    post={selectedPost}
+                />
 
                 {/* Delete Confirmation Dialog */}
                 <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>

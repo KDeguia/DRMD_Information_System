@@ -22,8 +22,9 @@ class Address extends Model
     protected $fillable = [
         'region',
         'province',
-        'city',
-        'barangay'
+        'municipality',
+        'barangay',
+        'psgc'
     ];
 
     // Example: Scope to filter cities by province (optional helper)

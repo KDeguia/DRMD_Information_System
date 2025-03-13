@@ -161,6 +161,40 @@ export default function PostNewRequest({ post }: Props) {
         });
     };
 
+    // ✅ Fetch Provinces
+    useEffect(() => {
+        const fetchProvinces = async () => {
+            try {
+                const res = await fetch('/provinces?region=Region%20III%20(Central%20Luzon)');
+                const data = await res.json();
+                setProvinces(data);
+            } catch (error) {
+                console.error('Error fetching provinces:', error);
+            }
+        };
+
+        fetchProvinces();
+    }, []);
+
+    // ✅ Fetch Municipalities on province select
+    useEffect(() => {
+        if (!selectedProvince) return;
+        const fetchMunicipalities = async () => {
+            try {
+                const res = await fetch(`/municipalities/${selectedProvince}`);
+                const data = await res.json();
+                setMunicipalities(data);
+                setBarangays([]);
+                setValue('municipality', '');
+                setValue('barangay', '');
+            } catch (error) {
+                console.error('Error fetching municipalities:', error);
+            }
+        };
+
+        fetchMunicipalities();
+    }, [selectedProvince, setValue]);
+
     return (
         <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">
             {/* Date of Request */}
@@ -364,7 +398,7 @@ export default function PostNewRequest({ post }: Props) {
                 </div>
             </div>
 
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
                 <label htmlFor="title" className="text-sm font-medium">
                     Title
                 </label>
@@ -390,7 +424,7 @@ export default function PostNewRequest({ post }: Props) {
                     <p className="text-muted-foreground text-sm">Image Preview:</p>
                     <img src={preview} alt="Preview" className="h-32 w-32 rounded-md border object-cover" />
                 </div>
-            )}
+            )} */}
             <div className="mt-4 flex justify-end gap-4">
                 <Button type="button" variant="secondary">
                     Clear
