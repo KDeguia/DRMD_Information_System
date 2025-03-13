@@ -111,6 +111,18 @@ export default function PostNewRequest({ post }: Props) {
         }
     }, [post]);
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setSelectedFile(file);
+            setPreview(URL.createObjectURL(file));
+        }
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -394,7 +406,7 @@ export default function PostNewRequest({ post }: Props) {
                 </div>
             </div>
 
-            {/* <div className="space-y-2">
+            <div className="space-y-2">
                 <label htmlFor="title" className="text-sm font-medium">
                     Title
                 </label>
@@ -420,7 +432,7 @@ export default function PostNewRequest({ post }: Props) {
                     <p className="text-muted-foreground text-sm">Image Preview:</p>
                     <img src={preview} alt="Preview" className="h-32 w-32 rounded-md border object-cover" />
                 </div>
-            )} */}
+            )}
             <div className="mt-4 flex justify-end gap-4">
                 <Button type="button" variant="secondary">
                     Clear
