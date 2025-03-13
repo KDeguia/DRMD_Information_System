@@ -30,9 +30,9 @@ class RequestsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // 'title'   => 'required|string|max:255',
-            // 'content' => 'required|string',
-            // 'picture' => 'nullable|image|max:2048', // Validate that picture is an image
+            'title'   => 'required|string|max:255',
+            'content' => 'required|string',
+            'picture' => 'nullable|image|max:2048', // Validate that picture is an image
         ]);
 
         $data = $request->only(['title', 'content']);

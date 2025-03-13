@@ -139,7 +139,8 @@ export default function PostNewRequest({ post }: Props) {
             data.append('_method', 'PUT');
         }
 
-        const url = isUpdating ? `/new_request/${post!.id}` : '/new_request';
+        // const url = isUpdating ? `/posts/${post!.id}` : '/new_request';
+        const url = isUpdating ? `/posts/${post!.id}` : '/posts';
 
         router.post(url, data, {
             onSuccess: () => {

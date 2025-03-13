@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
- use Inertia\Inertia;
+use Inertia\Inertia;
 use Inertia\Response;
- use App\Models\User;
+use App\Models\User;
+use App\Http\Controllers\redirect;
 
 class PostController extends Controller
 {
