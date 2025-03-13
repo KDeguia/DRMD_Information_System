@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\RequestModel;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Requests\redirect;
 
 class RequestsController extends Controller
 {
@@ -46,7 +47,7 @@ class RequestsController extends Controller
 
         RequestModel::create($data);
 
-        return redirect()->route('posts.index')->with('success', 'Request created successfully.');
+        // return redirect()->route('posts.index')->with('success', 'Request created successfully.');
     }
 
     public function update(Request $request, RequestModel $new_request)
@@ -68,7 +69,7 @@ class RequestsController extends Controller
 
         $new_request->update($data);
 
-        return redirect()->route('posts.index')->with('success', 'Request updated successfully.');
+        // return redirect()->route('posts.index')->with('success', 'Request ssssupdated successfully.');
     }
 
 

@@ -22,6 +22,14 @@ interface Post {
     picture?: string;
 }
 
+type Municipality = {
+    municipality: string;
+};
+
+type Province = {
+    province: string;
+};
+
 interface Props {
     // isOpen: boolean;
     // closeModal: () => void;
@@ -56,9 +64,9 @@ export default function PostNewRequest({ post }: Props) {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [preview, setPreview] = useState<string>('');
 
-    const [date, setDate] = useState(null);
-    const [provinces, setProvinces] = useState([]);
-    const [municipalities, setMunicipalities] = useState([]);
+    const [date, setDate] = useState<Date | undefined>(undefined);
+    const [provinces, setProvinces] = useState<Province[]>([]);
+    const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
     const [barangays, setBarangays] = useState([]);
     const [selectedProvince, setSelectedProvince] = useState('');
     const [selectedMunicipality, setSelectedMunicipality] = useState('');
@@ -102,18 +110,6 @@ export default function PostNewRequest({ post }: Props) {
             setSelectedFile(null);
         }
     }, [post]);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
-            setSelectedFile(file);
-            setPreview(URL.createObjectURL(file));
-        }
-    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -429,7 +425,7 @@ export default function PostNewRequest({ post }: Props) {
                 <Button type="button" variant="secondary">
                     Clear
                 </Button>
-                <Button type="submit">{post ? 'Update' : 'Create'}</Button>
+                <Button type="submit">{post ? 'Update' : 'Submit'}</Button>
             </div>
         </form>
     );
