@@ -40,3 +40,10 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface PostRequest {
+    id: number;
+    type_of_disaster: string;
+    purpose: string;
+    pdf_file: string;
+}

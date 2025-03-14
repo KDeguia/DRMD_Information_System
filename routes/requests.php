@@ -3,8 +3,12 @@
 use App\Http\Controllers\Requests\RequestsController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostRequestIndexController;
+use App\Http\Controllers\PostRequestStoreController;
+use App\Http\Controllers\PostRequestEditController;
+use App\Http\Controllers\PostRequestUpdateController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+
 
 
 
@@ -26,6 +30,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/provinces', [AddressController::class, 'getProvinces']);
     Route::get('/municipalities/{province}', [AddressController::class, 'getMunicipalities']);
     Route::get('/barangays/{municipality}', [AddressController::class, 'getBarangays']);
+
+    Route::get('posts_request', PostRequestIndexController::class)->name('posts_request.index');
+    Route::inertia('posts_request/create', 'requests/create')->name('posts_request.create');
+    Route::post('posts_request', PostRequestStoreController::class)->name('posts_request.store');
+    Route::get('posts_request/{post_request}/edit', PostRequestEditController::class)->name('posts_request.edit');
+    Route::put('posts_request/{post_request}', PostRequestUpdateController::class)->name('posts_request.update');
 }
 
 

@@ -30,10 +30,16 @@ const mainNavItems: NavItem[] = [
     },
 
     {
+        title: 'Post New Request',
+        url: '/posts_request',
+        icon: FilePlus,
+    },
+
+    {
         title: 'Requests',
         url: '#',
         icon: HandHelping,
-        isActive: true,
+
         items: [
             {
                 title: 'New Request',
@@ -89,7 +95,7 @@ const mainNavItems: NavItem[] = [
         title: 'Admin Access Control',
         url: '#',
         icon: ShieldEllipsisIcon,
-        isActive: true,
+
         items: [
             {
                 title: 'User Accounts',
