@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\PostRequest;
+use App\Http\Resources\PostRequestResource;
 
 class PostRequestIndexController extends Controller
 {
@@ -13,10 +13,10 @@ class PostRequestIndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $posts_request = PostRequest::all();
+        $posts_request = $request->user()->posts_request()->get();
 
         return Inertia::render('requests/index', [
-            'posts_request' => $posts_request,
+            'posts_request' => PostRequestResource::collection($posts_request)
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PostRequest;
+use App\Http\Resources\PostRequestResource;
 
 class PostRequestEditController extends Controller
 {
@@ -13,7 +14,7 @@ class PostRequestEditController extends Controller
     public function __invoke(PostRequest $post_request)
     {
         return inertia('requests/edit', [
-            'currentRequest' => $post_request,
+            'currentRequest' => new PostRequestResource($post_request),
         ]);
     }
 }

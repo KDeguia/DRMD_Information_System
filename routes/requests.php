@@ -7,6 +7,7 @@ use App\Http\Controllers\PostRequestIndexController;
 use App\Http\Controllers\PostRequestStoreController;
 use App\Http\Controllers\PostRequestEditController;
 use App\Http\Controllers\PostRequestUpdateController;
+use App\Http\Controllers\PostRequestDestroyController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::post('posts_request', PostRequestStoreController::class)->name('posts_request.store');
     Route::get('posts_request/{post_request}/edit', PostRequestEditController::class)->name('posts_request.edit');
     Route::put('posts_request/{post_request}', PostRequestUpdateController::class)->name('posts_request.update');
+    Route::delete('posts_request/{post_request}', PostRequestDestroyController::class)->name('posts_request.destroy');
 }
 
 

@@ -61,7 +61,22 @@ export default function EditRequest({ currentRequest }: { currentRequest: PostRe
                         <div className="grid gap-2">
                             <Label htmlFor="pdf_file">Situational Report</Label>
                             <Input id="pdf_file" type="file" onChange={handleFileChange} />
-                            {pdfPreview && <img src={pdfPreview} alt="Preview" className="h-10 w-10 rounded-full object-cover" />}
+                            <div className="flex items-center gap-2">
+                                {currentRequest.pdf_file ? (
+                                    <a href={currentRequest.pdf_file} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                                        View Current PDF
+                                    </a>
+                                ) : (
+                                    <span className="text-gray-500">No current PDF file</span>
+                                )}
+
+                                {pdfPreview && (
+                                    <a href={pdfPreview} target="_blank" rel="noopener noreferrer" className="text-green-500 underline">
+                                        Preview New PDF
+                                    </a>
+                                )}
+                            </div>
+
                             <InputError message={errors.pdf_file} />
                         </div>
                         <div className="grid gap-2">
