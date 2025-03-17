@@ -21,6 +21,8 @@ class PostRequestResource extends JsonResource
             'type_of_disaster' => $this->type_of_disaster,
             'purpose' => $this->purpose,
             'pdf_file' => asset('storage/' . $this->pdf_file),
+            'province' => $this->province,
+            'city_municipality' => $this->city_municipality,
         ];
     }
 }

@@ -17,6 +17,8 @@ class PostRequestStoreController extends Controller
             'purpose' => 'required|string|max:255',
             'pdf_file' => 'required|nullable|file|mimes:pdf|max:5120',
             'date_of_request' => 'required|string|max:255',
+            'province' => 'required|string|max:255',
+            'city_municipality' => 'required|string|max:255'
 
         ]);
 

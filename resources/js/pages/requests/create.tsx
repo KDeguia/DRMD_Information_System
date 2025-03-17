@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
+import axios from 'axios';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler, useEffect, useRef, useState } from 'react';
 
@@ -16,7 +17,7 @@ import * as React from 'react';
 
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -31,9 +32,19 @@ type RequestForm = {
     purpose: string;
     pdf_file: File | null;
     date_of_request?: string | Date;
+    province: string;
+    city_municipality: string;
 };
 
-const disasterOptions = ['Earthquake', 'Flood', 'Typhoon', 'Fire', 'Landslide', 'Custom'];
+type Province = {
+    province: string;
+};
+
+type Municipality = {
+    municipality: string;
+};
+
+const disasterOptions = ['Armed-Conflict', 'Earthquake', 'Flood', 'Typhoon', 'Fire', 'Landslide', 'Custom'];
 
 export default function CreateRequest() {
     const { data, setData, post, processing, errors } = useForm<RequestForm>({
@@ -41,12 +52,59 @@ export default function CreateRequest() {
         purpose: '',
         pdf_file: null,
         date_of_request: '',
+        province: '',
+        city_municipality: '',
     });
 
     const [date, setDate] = React.useState<Date>();
     const [showCustomInput, setShowCustomInput] = useState(false);
     const [customInputError, setCustomInputError] = useState('');
     const customInputRef = useRef<HTMLInputElement>(null);
+
+    const [provinces, setProvinces] = useState<Province[]>([]);
+    const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
+    const [barangays, setBarangays] = useState([]);
+
+    const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+    const [selectedMunicipality, setSelectedMunicipality] = useState<string | null>(null);
+    const [selectedBarangay, setSelectedBarangay] = useState<string | null>(null);
+
+    // Load provinces on mount
+    useEffect(() => {
+        axios
+            .get('/provinces')
+            .then((res) => {
+                setProvinces(res.data);
+            })
+            .catch((err) => console.error(err));
+    }, []);
+
+    // Load municipalities when province is selected
+    useEffect(() => {
+        if (selectedProvince) {
+            axios
+                .get(`/municipalities/${selectedProvince}`)
+                .then((res) => {
+                    setMunicipalities(res.data);
+                    setBarangays([]); // Reset barangays
+                    setSelectedMunicipality(null);
+                })
+                .catch((err) => console.error(err));
+        }
+    }, [selectedProvince]);
+
+    // Load barangays when municipality is selected
+    // useEffect(() => {
+    //     if (selectedProvince && selectedMunicipality) {
+    //         axios
+    //             .get(`/barangays/${selectedProvince}/${selectedMunicipality}`)
+    //             .then((res) => {
+    //                 setBarangays(res.data);
+    //                 setSelectedBarangay(null);
+    //             })
+    //             .catch((err) => console.error(err));
+    //     }
+    // }, [selectedMunicipality, selectedProvince]);
 
     useEffect(() => {
         if (showCustomInput && customInputRef.current) {
@@ -178,6 +236,60 @@ export default function CreateRequest() {
 
                                 {/* Server-side validation error */}
                                 <InputError message={errors.type_of_disaster} />
+                            </div>
+
+                            {/* Province */}
+                            <div className="grid gap-2">
+                                <Label htmlFor="province">Province</Label>
+                                <Select
+                                    onValueChange={(value) => {
+                                        setSelectedProvince(value);
+                                        setData('province', value);
+                                        setSelectedMunicipality(null);
+                                        setSelectedBarangay(null);
+                                    }}
+                                >
+                                    <SelectTrigger id="province" className="w-[300px]">
+                                        <SelectValue placeholder="Select a province" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Provinces</SelectLabel>
+                                            {provinces.map((item, idx) => (
+                                                <SelectItem key={idx} value={item.province}>
+                                                    {item.province}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            {/* Municipality */}
+                            <div className="grid gap-2">
+                                <Label htmlFor="municipality">Municipality</Label>
+                                <Select
+                                    disabled={!selectedProvince}
+                                    onValueChange={(value) => {
+                                        setSelectedMunicipality(value);
+                                        setData('city_municipality', value);
+                                        setSelectedBarangay(null);
+                                    }}
+                                >
+                                    <SelectTrigger className="w-[300px]">
+                                        <SelectValue placeholder={selectedProvince ? 'Select a municipality' : 'Select province first'} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Municipalities</SelectLabel>
+                                            {municipalities.map((item, idx) => (
+                                                <SelectItem key={idx} value={item.municipality}>
+                                                    {item.municipality}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </div>
 
                             {/* FILE UPLOAD */}

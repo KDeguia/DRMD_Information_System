@@ -8,14 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class AddressController extends Controller
 {
-    // Get provinces by region
-    public function getProvinces(Request $request)
+    // Get unique provinces
+    // Get unique provinces
+    public function getProvinces()
     {
-        $region = $request->query('region', 'Region III (Central Luzon)');
-
         $provinces = DB::table('ph_address')
             ->select('province')
-            ->where('region', $region)
             ->whereNotNull('province')
             ->distinct()
             ->orderBy('province')
@@ -24,7 +22,7 @@ class AddressController extends Controller
         return response()->json($provinces);
     }
 
-    // Get municipalities by province
+    // Get unique municipalities based on selected province
     public function getMunicipalities($province)
     {
         $municipalities = DB::table('ph_address')
@@ -38,11 +36,12 @@ class AddressController extends Controller
         return response()->json($municipalities);
     }
 
-    // Get barangays by municipality
-    public function getBarangays(Request $request, $municipality)
+    // Get unique barangays based on selected province and municipality
+    public function getBarangays($province, $municipality)
     {
         $barangays = DB::table('ph_address')
             ->select('barangay')
+            ->where('province', $province)
             ->where('municipality', $municipality)
             ->whereNotNull('barangay')
             ->distinct()

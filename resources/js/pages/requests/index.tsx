@@ -27,6 +27,8 @@ interface PostRequest {
     type_of_disaster: string;
     purpose: string;
     pdf_file: string;
+    province: string;
+    city_municipality: string;
 }
 
 interface FlashMessages {
@@ -107,8 +109,9 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                         <TableCaption>A list of your recent requests.</TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[100px]">ID</TableHead>
+                                {/* <TableHead className="w-[100px]">ID</TableHead> */}
                                 <TableHead>Date of Request</TableHead>
+                                <TableHead>Requested by</TableHead>
                                 <TableHead>Type of Disaster</TableHead>
                                 <TableHead>Purpose</TableHead>
                                 <TableHead>Situational Report</TableHead>
@@ -119,8 +122,11 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                         <TableBody>
                             {posts_request.map((post_request) => (
                                 <TableRow key={post_request.id}>
-                                    <TableCell className="font-medium">{post_request.id}</TableCell>
+                                    {/* <TableCell className="font-medium">{post_request.id}</TableCell> */}
                                     <TableCell>{post_request.date_of_request}</TableCell>
+                                    <TableCell>
+                                        {post_request.city_municipality}, {post_request.province}
+                                    </TableCell>
                                     <TableCell>{post_request.type_of_disaster}</TableCell>
                                     <TableCell>{post_request.purpose}</TableCell>
 
@@ -142,7 +148,7 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
 
                                     <TableCell className="flex justify-end gap-2 text-right">
                                         <Popover>
-                                            <PopoverTrigger>
+                                            <PopoverTrigger asChild>
                                                 <Button className="outline">
                                                     <Ellipsis />
                                                 </Button>

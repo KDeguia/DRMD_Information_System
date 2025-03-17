@@ -47,4 +47,6 @@ export interface PostRequest {
     type_of_disaster: string;
     purpose: string;
     pdf_file: string;
+    province: string;
+    city_municipality: string;
 }
