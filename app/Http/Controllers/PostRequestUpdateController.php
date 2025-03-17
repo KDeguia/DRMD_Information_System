@@ -38,6 +38,6 @@ class PostRequestUpdateController extends Controller
         $post_request->update($data);
 
         // ✅ Flash a success message to the session
-        return to_route('posts_request.index')->with('success', 'Post request updated successfully!');
+        return to_route('posts_request.index')->with('updated', 'Post request updated successfully!');
     }
 }

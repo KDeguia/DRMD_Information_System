@@ -5,10 +5,13 @@ import { Head, Link, router, usePage } from '@inertiajs/react';
 import { FileText, Pencil, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import Swal from 'sweetalert2';
 
 // Shadcn UI components
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+
+import { PageProps as InertiaPageProps } from '@inertiajs/core'; // ✅ Add this!
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,17 +27,28 @@ interface PostRequest {
     pdf_file: string;
 }
 
+interface FlashMessages {
+    updated?: string;
+    deleted?: string;
+    created?: string;
+    error?: string;
+}
+
+interface PageProps extends InertiaPageProps {
+    // ✅ Extend Inertia’s PageProps
+    flash: FlashMessages;
+}
+
 export default function PostRequestIndex({ posts_request }: { posts_request: PostRequest[] }) {
     const [deleteId, setDeleteId] = useState<number | null>(null);
 
-    // Handle delete with Inertia and toast
     const handleDelete = () => {
         if (!deleteId) return;
 
         router.delete(route('posts_request.destroy', deleteId), {
             onSuccess: () => {
                 toast.success('Post request deleted successfully!');
-                setDeleteId(null); // Close modal after success
+                setDeleteId(null);
             },
             onError: () => {
                 toast.error('Failed to delete post request.');
@@ -42,11 +56,38 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
         });
     };
 
-    // Flash messages from the backend (update/create)
-    const { props } = usePage();
+    const { props } = usePage<PageProps>();
+
     useEffect(() => {
-        if (props.flash?.success) toast.success(props.flash.success);
-        if (props.flash?.error) toast.error(props.flash.error);
+        if (props.flash?.created) {
+            Swal.fire({
+                title: 'Success!',
+                text: props.flash.created,
+                icon: 'success',
+                confirmButtonText: 'Ok',
+                background: '#a9a9a9',
+                color: '#000000',
+                confirmButtonColor: '#000000',
+                timer: 2000,
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    icon: 'custom-icon-color',
+                },
+            });
+        }
+
+        if (props.flash?.updated) {
+            toast.success(props.flash.updated);
+        }
+
+        if (props.flash?.deleted) {
+            toast.success(props.flash.deleted);
+        }
+
+        if (props.flash?.error) {
+            toast.error(props.flash.error);
+        }
     }, [props.flash]);
 
     return (
@@ -63,7 +104,6 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
                     <Table>
                         <TableCaption>A list of your recent requests.</TableCaption>
-
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="w-[100px]">ID</TableHead>
@@ -106,7 +146,6 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                                             Edit
                                         </Link>
 
-                                        {/* Dialog Trigger */}
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button
@@ -119,7 +158,6 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                                                 </Button>
                                             </DialogTrigger>
 
-                                            {/* Dialog Content */}
                                             <DialogContent>
                                                 <DialogHeader>
                                                     <DialogTitle>Delete Post Request</DialogTitle>

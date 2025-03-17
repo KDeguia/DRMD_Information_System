@@ -25,8 +25,7 @@ class PostRequestDestroyController extends Controller
         $post_request->delete();
 
         // Redirect back with a success flash message
-        return redirect()
-            ->route('posts_request.index')
-            ->with('success', 'Post request deleted successfully.');
+        return to_route('posts_request.index')->with('deleted', 'Post request deleted successfully!');
+
     }
 }

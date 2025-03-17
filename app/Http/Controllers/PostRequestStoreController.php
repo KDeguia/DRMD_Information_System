@@ -22,11 +22,11 @@ class PostRequestStoreController extends Controller
 
         if ($request->hasFile('pdf_file')) {
             $data['pdf_file'] = Storage::disk('public')->put('posts_request', $request->file('pdf_file'));
-
         }
 
         $request->user()->posts_request()->create($data);
 
-        return to_route('posts_request.index');
+        // ✅ Add the flash message for creation success
+        return to_route('posts_request.index')->with('created', 'Post request created successfully!');
     }
 }
