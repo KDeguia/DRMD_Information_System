@@ -152,7 +152,7 @@ export default function CreateRequest() {
             <Head title="Posts Create" />
             <section className="flex h-full flex-1 flex-col gap-4 rounded-xl bg-gray-100 p-6 dark:bg-gray-950">
                 <Card className="mx-auto w-full max-w-3xl p-6">
-                    <form className="flex flex-col gap-6" onSubmit={submit}>
+                    <form className="space-y-4" onSubmit={submit}>
                         <div className="grid gap-6">
                             {/* DATE PICKER */}
                             <div className="grid gap-2">
@@ -203,7 +203,7 @@ export default function CreateRequest() {
                             </div>
 
                             {/* TYPE OF DISASTER */}
-                            <div className="grid gap-2">
+                            <div className="grid-cols grid gap-2">
                                 <Label htmlFor="type_of_disaster">Type of Disaster</Label>
 
                                 {/* Disaster Select */}
@@ -237,59 +237,60 @@ export default function CreateRequest() {
                                 {/* Server-side validation error */}
                                 <InputError message={errors.type_of_disaster} />
                             </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                {/* Province */}
+                                <div className="grid gap-2">
+                                    <Label htmlFor="province">Province</Label>
+                                    <Select
+                                        onValueChange={(value) => {
+                                            setSelectedProvince(value);
+                                            setData('province', value);
+                                            setSelectedMunicipality(null);
+                                            setSelectedBarangay(null);
+                                        }}
+                                    >
+                                        <SelectTrigger id="province" className="w-[300px]">
+                                            <SelectValue placeholder="Select a province" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>Provinces</SelectLabel>
+                                                {provinces.map((item, idx) => (
+                                                    <SelectItem key={idx} value={item.province}>
+                                                        {item.province}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
 
-                            {/* Province */}
-                            <div className="grid gap-2">
-                                <Label htmlFor="province">Province</Label>
-                                <Select
-                                    onValueChange={(value) => {
-                                        setSelectedProvince(value);
-                                        setData('province', value);
-                                        setSelectedMunicipality(null);
-                                        setSelectedBarangay(null);
-                                    }}
-                                >
-                                    <SelectTrigger id="province" className="w-[300px]">
-                                        <SelectValue placeholder="Select a province" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Provinces</SelectLabel>
-                                            {provinces.map((item, idx) => (
-                                                <SelectItem key={idx} value={item.province}>
-                                                    {item.province}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            {/* Municipality */}
-                            <div className="grid gap-2">
-                                <Label htmlFor="municipality">Municipality</Label>
-                                <Select
-                                    disabled={!selectedProvince}
-                                    onValueChange={(value) => {
-                                        setSelectedMunicipality(value);
-                                        setData('city_municipality', value);
-                                        setSelectedBarangay(null);
-                                    }}
-                                >
-                                    <SelectTrigger className="w-[300px]">
-                                        <SelectValue placeholder={selectedProvince ? 'Select a municipality' : 'Select province first'} />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Municipalities</SelectLabel>
-                                            {municipalities.map((item, idx) => (
-                                                <SelectItem key={idx} value={item.municipality}>
-                                                    {item.municipality}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                {/* Municipality */}
+                                <div className="grid gap-2">
+                                    <Label htmlFor="municipality">Municipality</Label>
+                                    <Select
+                                        disabled={!selectedProvince}
+                                        onValueChange={(value) => {
+                                            setSelectedMunicipality(value);
+                                            setData('city_municipality', value);
+                                            setSelectedBarangay(null);
+                                        }}
+                                    >
+                                        <SelectTrigger className="w-[300px]">
+                                            <SelectValue placeholder={selectedProvince ? 'Select a municipality' : 'Select province first'} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>Municipalities</SelectLabel>
+                                                {municipalities.map((item, idx) => (
+                                                    <SelectItem key={idx} value={item.municipality}>
+                                                        {item.municipality}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
                             </div>
 
                             {/* FILE UPLOAD */}
