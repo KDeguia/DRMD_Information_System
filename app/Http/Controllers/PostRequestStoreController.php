@@ -13,9 +13,11 @@ class PostRequestStoreController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->validate([
-            'type_of_disaster' => 'required',
-            'purpose' => 'required',
-            'pdf_file' => 'required|file|mimes:pdf|max:5120',
+            'type_of_disaster' => 'required|string|max:255',
+            'purpose' => 'required|string|max:255',
+            'pdf_file' => 'required|nullable|file|mimes:pdf|max:5120',
+            'date_of_request' => 'required|string|max:255',
+
         ]);
 
         $data['type_of_disaster'] = str($data['type_of_disaster'])->slug();

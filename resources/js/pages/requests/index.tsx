@@ -1,8 +1,7 @@
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { FileText, Pencil, Trash2 } from 'lucide-react';
+import { Ellipsis, FileText, Pencil, Plus, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import Swal from 'sweetalert2';
@@ -10,6 +9,8 @@ import Swal from 'sweetalert2';
 // Shadcn UI components
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 import { PageProps as InertiaPageProps } from '@inertiajs/core'; // ✅ Add this!
 
@@ -22,6 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface PostRequest {
     id: number;
+    date_of_request: string;
     type_of_disaster: string;
     purpose: string;
     pdf_file: string;
@@ -46,10 +48,6 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
         if (!deleteId) return;
 
         router.delete(route('posts_request.destroy', deleteId), {
-            onSuccess: () => {
-                toast.success('Post request deleted successfully!');
-                setDeleteId(null);
-            },
             onError: () => {
                 toast.error('Failed to delete post request.');
             },
@@ -96,8 +94,11 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="flex justify-end">
-                    <Link href={route('posts_request.create')} className="text-indigo-500 underline">
-                        Create Post
+                    <Link href={route('posts_request.create')}>
+                        <Button>
+                            <Plus className="h-4 w-4" />
+                            Create Post
+                        </Button>
                     </Link>
                 </div>
 
@@ -107,6 +108,7 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="w-[100px]">ID</TableHead>
+                                <TableHead>Date of Request</TableHead>
                                 <TableHead>Type of Disaster</TableHead>
                                 <TableHead>Purpose</TableHead>
                                 <TableHead>Situational Report</TableHead>
@@ -118,6 +120,7 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                             {posts_request.map((post_request) => (
                                 <TableRow key={post_request.id}>
                                     <TableCell className="font-medium">{post_request.id}</TableCell>
+                                    <TableCell>{post_request.date_of_request}</TableCell>
                                     <TableCell>{post_request.type_of_disaster}</TableCell>
                                     <TableCell>{post_request.purpose}</TableCell>
 
@@ -138,45 +141,54 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                                     </TableCell>
 
                                     <TableCell className="flex justify-end gap-2 text-right">
-                                        <Link
-                                            href={route('posts_request.edit', post_request.id)}
-                                            className="inline-flex items-center gap-1 text-indigo-500 hover:text-indigo-600"
-                                        >
-                                            <Pencil className="h-4 w-4" />
-                                            Edit
-                                        </Link>
-
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button
-                                                    variant="ghost"
-                                                    className="inline-flex items-center gap-1 text-red-500 hover:text-red-600"
-                                                    onClick={() => setDeleteId(post_request.id)}
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                    Delete
+                                        <Popover>
+                                            <PopoverTrigger>
+                                                <Button className="outline">
+                                                    <Ellipsis />
                                                 </Button>
-                                            </DialogTrigger>
+                                            </PopoverTrigger>
+                                            <PopoverContent>
+                                                <Link
+                                                    href={route('posts_request.edit', post_request.id)}
+                                                    className="inline-flex items-center gap-1 text-indigo-500 hover:text-indigo-600"
+                                                >
+                                                    <Pencil className="h-4 w-4" />
+                                                    Edit
+                                                </Link>
 
-                                            <DialogContent>
-                                                <DialogHeader>
-                                                    <DialogTitle>Delete Post Request</DialogTitle>
-                                                    <DialogDescription>
-                                                        Are you sure you want to delete this post request? This action cannot be undone.
-                                                    </DialogDescription>
-                                                </DialogHeader>
+                                                <Dialog>
+                                                    <DialogTrigger asChild>
+                                                        <Button
+                                                            variant="ghost"
+                                                            className="inline-flex items-center gap-1 text-red-500 hover:text-red-600"
+                                                            onClick={() => setDeleteId(post_request.id)}
+                                                        >
+                                                            <Trash2 className="h-4 w-4" />
+                                                            Delete
+                                                        </Button>
+                                                    </DialogTrigger>
 
-                                                <DialogFooter className="gap-2 sm:justify-end">
-                                                    <Button variant="outline" onClick={() => setDeleteId(null)}>
-                                                        Cancel
-                                                    </Button>
+                                                    <DialogContent>
+                                                        <DialogHeader>
+                                                            <DialogTitle>Delete Post Request</DialogTitle>
+                                                            <DialogDescription>
+                                                                Are you sure you want to delete this post request? This action cannot be undone.
+                                                            </DialogDescription>
+                                                        </DialogHeader>
 
-                                                    <Button variant="destructive" onClick={handleDelete}>
-                                                        Confirm Delete
-                                                    </Button>
-                                                </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
+                                                        <DialogFooter className="gap-2 sm:justify-end">
+                                                            <Button variant="outline" onClick={() => setDeleteId(null)}>
+                                                                Cancel
+                                                            </Button>
+
+                                                            <Button variant="destructive" onClick={handleDelete}>
+                                                                Confirm Delete
+                                                            </Button>
+                                                        </DialogFooter>
+                                                    </DialogContent>
+                                                </Dialog>
+                                            </PopoverContent>
+                                        </Popover>
                                     </TableCell>
                                 </TableRow>
                             ))}

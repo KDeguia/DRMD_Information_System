@@ -43,6 +43,7 @@ export interface User {
 
 export interface PostRequest {
     id: number;
+    date_of_request: string;
     type_of_disaster: string;
     purpose: string;
     pdf_file: string;
