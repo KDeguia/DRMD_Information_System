@@ -1,14 +1,16 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Ellipsis, FileText, Pencil, Plus, Search, Trash2 } from 'lucide-react';
+import { Ellipsis, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import Swal from 'sweetalert2';
 
 // Shadcn UI components
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input'; // 👈 add Input
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -189,9 +191,12 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                                 <TableHead>Date of Request</TableHead>
                                 <TableHead>Requested by</TableHead>
                                 <TableHead>Type of Disaster</TableHead>
+                                <TableHead>Particular</TableHead>
+                                <TableHead>Quantity</TableHead>
                                 <TableHead>Purpose</TableHead>
-                                <TableHead>Situational Report</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Validated?</TableHead>
+                                <TableHead>Action</TableHead>
                             </TableRow>
                         </TableHeader>
 
@@ -204,9 +209,19 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                                             {post_request.city_municipality}, {post_request.province}
                                         </TableCell>
                                         <TableCell>{post_request.type_of_disaster}</TableCell>
+                                        <TableCell>Family Food Pack</TableCell>
+                                        <TableCell>13</TableCell>
                                         <TableCell>{post_request.purpose}</TableCell>
-
                                         <TableCell>
+                                            <Badge variant="destructive">Pending</Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Checkbox id="terms1" />
+                                            Validated
+                                        </TableCell>
+
+                                        {/* TO SHOW PDF */}
+                                        {/* <TableCell>
                                             {post_request.pdf_file ? (
                                                 <a
                                                     href={post_request.pdf_file}
@@ -220,9 +235,9 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                                             ) : (
                                                 <span className="text-gray-500">No file</span>
                                             )}
-                                        </TableCell>
+                                        </TableCell> */}
 
-                                        <TableCell className="flex justify-end gap-2 text-right">
+                                        <TableCell className="flex justify-center gap-2">
                                             <Popover>
                                                 <PopoverTrigger asChild>
                                                     <Button className="outline">
