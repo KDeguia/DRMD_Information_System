@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('request_no')->unique()->nullable();
-            $table->date('date_of_request')->nullable();
+            $table->string('date_of_request')->nullable();
             $table->string('type_of_assistance')->nullable();
             $table->string('type_of_disaster')->nullable();
             $table->integer('quantity')->nullable();
