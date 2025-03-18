@@ -8,10 +8,10 @@ const breadcrumbs: BreadcrumbItem[] = [
         title: 'Requests',
         href: '#',
     },
-    {
-        title: 'Queue Request',
-        href: 'queue_request',
-    },
+    // {
+    //     title: 'Queue Request',
+    //     href: 'queue_request',
+    // },
 ];
 
 export default function Queue_Request() {

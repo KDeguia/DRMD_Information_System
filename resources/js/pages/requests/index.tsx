@@ -19,8 +19,12 @@ import { PageProps as InertiaPageProps } from '@inertiajs/core';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Posts Request',
-        href: 'posts_request',
+        title: 'Requests',
+        href: '#',
+    },
+    {
+        title: 'New Request',
+        href: '/posts_requests/create',
     },
 ];
 
@@ -122,7 +126,9 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Posts Request" />
+            <Head title="Request">
+                <link rel="icon" type="image/png" href="/dswd.png" />
+            </Head>
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl bg-gray-100 p-6 dark:bg-gray-950">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

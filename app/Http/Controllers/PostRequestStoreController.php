@@ -31,6 +31,6 @@ class PostRequestStoreController extends Controller
         $request->user()->posts_request()->create($data);
 
         // ✅ Add the flash message for creation success
-        return to_route('posts_request.index')->with('created', 'Post request created successfully!');
+        return to_route('posts_request.index')->with('created', 'New request created successfully!');
     }
 }

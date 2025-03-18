@@ -18,12 +18,17 @@ import * as React from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 
 import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Posts Create',
+        title: 'Requests',
+        href: '#',
+    },
+    {
+        title: 'New Request',
         href: '/posts_requests/create',
     },
 ];
@@ -150,7 +155,7 @@ export default function CreateRequest() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Posts Create" />
+            <Head title="New Create" />
             <section className="flex h-full flex-1 flex-col gap-2 rounded-xl bg-gray-100 p-4 dark:bg-gray-950">
                 <Card className="mx-auto w-full max-w-3xl p-4">
                     <form className="space-y-4" onSubmit={submit}>
@@ -299,12 +304,11 @@ export default function CreateRequest() {
                                 <Label>Type of Assistance</Label>
                                 <Select>
                                     <SelectTrigger className="w-[180px]">
-                                        <SelectValue placeholder="Theme" />
+                                        <SelectValue placeholder="Select a assistance" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="light">Light</SelectItem>
-                                        <SelectItem value="dark">Dark</SelectItem>
-                                        <SelectItem value="system">System</SelectItem>
+                                        <SelectItem value="food-item">Food-Items</SelectItem>
+                                        <SelectItem value="non-food-item">Non-Food-Items</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -312,12 +316,12 @@ export default function CreateRequest() {
                                 <Label>Particular</Label>
                                 <Select>
                                     <SelectTrigger className="w-[180px]">
-                                        <SelectValue placeholder="Theme" />
+                                        <SelectValue placeholder="Select a particular" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="light">Light</SelectItem>
-                                        <SelectItem value="dark">Dark</SelectItem>
-                                        <SelectItem value="system">System</SelectItem>
+                                        <SelectItem value="family-food-pack">Family Food Pack</SelectItem>
+                                        <SelectItem value="hygiene-kit">Hygiene Kit</SelectItem>
+                                        <SelectItem value="sleeping-kit">Sleeping Kit</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -326,7 +330,7 @@ export default function CreateRequest() {
                                     <Label>Quantity</Label>
                                     <Input type="number" />
                                 </div>
-                                <div className="grid gap-2">
+                                <div className="grid-cols p-4">
                                     <Button variant="destructive" type="button">
                                         <Trash className="h-4 w-4" />
                                     </Button>
@@ -334,18 +338,41 @@ export default function CreateRequest() {
                             </div>
                         </div>
 
-                        {/* FILE UPLOAD */}
-                        <div className="grid gap-2">
-                            <Label htmlFor="pdf_file">Situational Report</Label>
-                            <Input id="pdf_file" type="file" onChange={handleFileChange} />
-                            <InputError message={errors.pdf_file} />
-                        </div>
-
                         {/* PURPOSE */}
                         <div className="grid gap-2">
                             <Label htmlFor="purpose">Purpose</Label>
                             <Textarea id="purpose" value={data.purpose} onChange={(e) => setData('purpose', e.target.value)} />
                             <InputError message={errors.purpose} />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4 p-4">
+                            {/* LEFT SIDE - FILE UPLOADS */}
+                            <div className="grid gap-4">
+                                <Label htmlFor="certificate_file">Attach Certificate of Depletion of QRF Fund</Label>
+                                <Input id="pdf_file" type="file" onChange={handleFileChange} />
+                                <InputError message={errors.pdf_file} />
+
+                                <Label htmlFor="request_letter_file">Attach Request Letter</Label>
+                                <Input id="request_letter_file" type="file" onChange={handleFileChange} />
+                                <InputError message={errors.request_letter_file} />
+
+                                <Label htmlFor="report_file">Attach Report of Affected Families</Label>
+                                <Input id="report_file" type="file" onChange={handleFileChange} />
+                                <InputError message={errors.report_file} />
+                            </div>
+                            {/* RIGHT SIDE */}
+                            <div className="flex items-start gap-4">
+                                {/* SEPARATOR */}
+                                <Separator orientation="vertical" className="h-full w-[6px] rounded from-black/50 dark:from-white/50" />
+
+                                {/* LIST OF TEXT */}
+                                <ul className="list-disc space-y-2 pl-4 text-sm">
+                                    <li>Make sure files are PDF format</li>
+                                    <li>Max file size is 5MB</li>
+                                    <li>Attach all required documents</li>
+                                    <li>Ensure all files are updated</li>
+                                </ul>
+                            </div>
                         </div>
 
                         {/* SUBMIT BUTTON */}

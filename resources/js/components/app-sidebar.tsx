@@ -29,11 +29,11 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
 
-    {
-        title: 'Post New Request',
-        url: '/posts_request',
-        icon: FilePlus,
-    },
+    // {
+    //     title: 'Post New Request',
+    //     url: '/new_request',
+    //     icon: FilePlus,
+    // },
 
     {
         title: 'Requests',
@@ -43,7 +43,7 @@ const mainNavItems: NavItem[] = [
         items: [
             {
                 title: 'New Request',
-                url: '/new_request',
+                url: '/posts_request',
                 icon: FilePlus,
                 badge: '',
             },
