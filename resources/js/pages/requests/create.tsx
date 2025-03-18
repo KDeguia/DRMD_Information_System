@@ -330,7 +330,7 @@ export default function CreateRequest() {
                                     <Label>Quantity</Label>
                                     <Input type="number" />
                                 </div>
-                                <div className="grid-cols p-4">
+                                <div className="grid-cols p-">
                                     <Button variant="destructive" type="button">
                                         <Trash className="h-4 w-4" />
                                     </Button>
@@ -339,10 +339,24 @@ export default function CreateRequest() {
                         </div>
 
                         {/* PURPOSE */}
-                        <div className="grid gap-2">
-                            <Label htmlFor="purpose">Purpose</Label>
-                            <Textarea id="purpose" value={data.purpose} onChange={(e) => setData('purpose', e.target.value)} />
-                            <InputError message={errors.purpose} />
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className="grid gap-2">
+                                <Label htmlFor="purpose">Purpose</Label>
+                                <Textarea id="purpose" value={data.purpose} onChange={(e) => setData('purpose', e.target.value)} />
+                                <InputError message={errors.purpose} />
+                            </div>
+                            <div>
+                                <Label>Mode of Transportation</Label>
+                                <Select>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Select a mode" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="family-food-pack">Family Food Pack</SelectItem>
+                                        <SelectItem value="hygiene-kit">Hygiene Kit</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 p-4">
