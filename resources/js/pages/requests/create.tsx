@@ -12,7 +12,7 @@ import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler, useEffect, useRef, useState } from 'react';
 
 import { addDays, format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Trash } from 'lucide-react';
 import * as React from 'react';
 
 import { Calendar } from '@/components/ui/calendar';
@@ -151,170 +151,209 @@ export default function CreateRequest() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Posts Create" />
-            <section className="flex h-full flex-1 flex-col gap-4 rounded-xl bg-gray-100 p-6 dark:bg-gray-950">
-                <Card className="mx-auto w-full max-w-3xl p-6">
+            <section className="flex h-full flex-1 flex-col gap-2 rounded-xl bg-gray-100 p-4 dark:bg-gray-950">
+                <Card className="mx-auto w-full max-w-3xl p-4">
                     <form className="space-y-4" onSubmit={submit}>
-                        <div className="grid gap-6">
-                            {/* DATE PICKER */}
-                            <div className="grid gap-2">
-                                <Label>Date of Request</Label>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={'outline'}
-                                            className={cn('w-[240px] justify-start text-left font-normal', !date && 'text-muted-foreground')}
-                                        >
-                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {date ? format(date, 'MM/dd/yyyy') : <span>Pick a date</span>}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent align="start" className="flex w-auto flex-col space-y-2 p-2">
-                                        <Select
-                                            onValueChange={(value) => {
-                                                const selectedDate = addDays(new Date(), parseInt(value));
-                                                setDate(selectedDate);
-                                                setData('date_of_request', format(selectedDate, 'MM/dd/yyyy'));
+                        {/* DATE PICKER */}
+                        <div className="grid-cols grid gap-2">
+                            <Label>Date of Request</Label>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant={'outline'}
+                                        className={cn('w-[240px] justify-start text-left font-normal', !date && 'text-muted-foreground')}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {date ? format(date, 'MM/dd/yyyy') : <span>Pick a date</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent align="start" className="flex w-auto flex-col space-y-2 p-2">
+                                    <Select
+                                        onValueChange={(value) => {
+                                            const selectedDate = addDays(new Date(), parseInt(value));
+                                            setDate(selectedDate);
+                                            setData('date_of_request', format(selectedDate, 'MM/dd/yyyy'));
+                                        }}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select" />
+                                        </SelectTrigger>
+                                        <SelectContent position="popper">
+                                            <SelectItem value="0">Today</SelectItem>
+                                            <SelectItem value="1">Tomorrow</SelectItem>
+                                            <SelectItem value="3">In 3 days</SelectItem>
+                                            <SelectItem value="7">In a week</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    <div className="rounded-md border">
+                                        <Calendar
+                                            mode="single"
+                                            selected={date}
+                                            onSelect={(selected) => {
+                                                setDate(selected);
+                                                if (selected) {
+                                                    setData('date_of_request', format(selected, 'MM/dd/yyyy'));
+                                                }
                                             }}
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select" />
-                                            </SelectTrigger>
-                                            <SelectContent position="popper">
-                                                <SelectItem value="0">Today</SelectItem>
-                                                <SelectItem value="1">Tomorrow</SelectItem>
-                                                <SelectItem value="3">In 3 days</SelectItem>
-                                                <SelectItem value="7">In a week</SelectItem>
-                                            </SelectContent>
-                                        </Select>
+                                        />
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
 
-                                        <div className="rounded-md border">
-                                            <Calendar
-                                                mode="single"
-                                                selected={date}
-                                                onSelect={(selected) => {
-                                                    setDate(selected);
-                                                    if (selected) {
-                                                        setData('date_of_request', format(selected, 'MM/dd/yyyy'));
-                                                    }
-                                                }}
-                                            />
-                                        </div>
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
+                        {/* TYPE OF DISASTER */}
+                        <div className="grid-cols grid gap-2">
+                            <Label htmlFor="type_of_disaster">Type of Disaster</Label>
 
-                            {/* TYPE OF DISASTER */}
-                            <div className="grid-cols grid gap-2">
-                                <Label htmlFor="type_of_disaster">Type of Disaster</Label>
+                            {/* Disaster Select */}
+                            <Select value={showCustomInput ? 'Custom' : data.type_of_disaster} onValueChange={handleDisasterChange}>
+                                <SelectTrigger id="type_of_disaster">
+                                    <SelectValue placeholder="Select a disaster type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {disasterOptions.map((option) => (
+                                        <SelectItem key={option} value={option}>
+                                            {option}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
 
-                                {/* Disaster Select */}
-                                <Select value={showCustomInput ? 'Custom' : data.type_of_disaster} onValueChange={handleDisasterChange}>
-                                    <SelectTrigger id="type_of_disaster">
-                                        <SelectValue placeholder="Select a disaster type" />
+                            {/* Custom Disaster Input */}
+                            {showCustomInput && (
+                                <div className="mt-2">
+                                    <Input
+                                        ref={customInputRef}
+                                        type="text"
+                                        placeholder="Enter custom disaster type..."
+                                        value={data.type_of_disaster}
+                                        onChange={(e) => setData('type_of_disaster', e.target.value)}
+                                    />
+                                    {customInputError && <p className="mt-1 text-sm text-red-500">{customInputError}</p>}
+                                </div>
+                            )}
+
+                            {/* Server-side validation error */}
+                            <InputError message={errors.type_of_disaster} />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2">
+                            {/* Province */}
+                            <div className="grid gap-2">
+                                <Label htmlFor="province">Province</Label>
+                                <Select
+                                    onValueChange={(value) => {
+                                        setSelectedProvince(value);
+                                        setData('province', value);
+                                        setSelectedMunicipality(null);
+                                        setSelectedBarangay(null);
+                                    }}
+                                >
+                                    <SelectTrigger id="province" className="w-[300px]">
+                                        <SelectValue placeholder="Select a province" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {disasterOptions.map((option) => (
-                                            <SelectItem key={option} value={option}>
-                                                {option}
-                                            </SelectItem>
-                                        ))}
+                                        <SelectGroup>
+                                            <SelectLabel>Provinces</SelectLabel>
+                                            {provinces.map((item, idx) => (
+                                                <SelectItem key={idx} value={item.province}>
+                                                    {item.province}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
                                     </SelectContent>
                                 </Select>
-
-                                {/* Custom Disaster Input */}
-                                {showCustomInput && (
-                                    <div className="mt-2">
-                                        <Input
-                                            ref={customInputRef}
-                                            type="text"
-                                            placeholder="Enter custom disaster type..."
-                                            value={data.type_of_disaster}
-                                            onChange={(e) => setData('type_of_disaster', e.target.value)}
-                                        />
-                                        {customInputError && <p className="mt-1 text-sm text-red-500">{customInputError}</p>}
-                                    </div>
-                                )}
-
-                                {/* Server-side validation error */}
-                                <InputError message={errors.type_of_disaster} />
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                {/* Province */}
-                                <div className="grid gap-2">
-                                    <Label htmlFor="province">Province</Label>
-                                    <Select
-                                        onValueChange={(value) => {
-                                            setSelectedProvince(value);
-                                            setData('province', value);
-                                            setSelectedMunicipality(null);
-                                            setSelectedBarangay(null);
-                                        }}
-                                    >
-                                        <SelectTrigger id="province" className="w-[300px]">
-                                            <SelectValue placeholder="Select a province" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectLabel>Provinces</SelectLabel>
-                                                {provinces.map((item, idx) => (
-                                                    <SelectItem key={idx} value={item.province}>
-                                                        {item.province}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
 
-                                {/* Municipality */}
+                            {/* Municipality */}
+                            <div className="grid gap-2">
+                                <Label htmlFor="municipality">Municipality</Label>
+                                <Select
+                                    disabled={!selectedProvince}
+                                    onValueChange={(value) => {
+                                        setSelectedMunicipality(value);
+                                        setData('city_municipality', value);
+                                        setSelectedBarangay(null);
+                                    }}
+                                >
+                                    <SelectTrigger className="w-[300px]">
+                                        <SelectValue placeholder={selectedProvince ? 'Select a municipality' : 'Select province first'} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Municipalities</SelectLabel>
+                                            {municipalities.map((item, idx) => (
+                                                <SelectItem key={idx} value={item.municipality}>
+                                                    {item.municipality}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-2">
+                            <div className="grid gap-2">
+                                <Label>Type of Assistance</Label>
+                                <Select>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Theme" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="light">Light</SelectItem>
+                                        <SelectItem value="dark">Dark</SelectItem>
+                                        <SelectItem value="system">System</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="grid gap-2">
+                                <Label>Particular</Label>
+                                <Select>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Theme" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="light">Light</SelectItem>
+                                        <SelectItem value="dark">Dark</SelectItem>
+                                        <SelectItem value="system">System</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="pace-x-2s flex items-center">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="municipality">Municipality</Label>
-                                    <Select
-                                        disabled={!selectedProvince}
-                                        onValueChange={(value) => {
-                                            setSelectedMunicipality(value);
-                                            setData('city_municipality', value);
-                                            setSelectedBarangay(null);
-                                        }}
-                                    >
-                                        <SelectTrigger className="w-[300px]">
-                                            <SelectValue placeholder={selectedProvince ? 'Select a municipality' : 'Select province first'} />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectLabel>Municipalities</SelectLabel>
-                                                {municipalities.map((item, idx) => (
-                                                    <SelectItem key={idx} value={item.municipality}>
-                                                        {item.municipality}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <Label>Quantity</Label>
+                                    <Input type="number" />
+                                </div>
+                                <div className="grid gap-2">
+                                    <Button variant="destructive" type="button">
+                                        <Trash className="h-4 w-4" />
+                                    </Button>
                                 </div>
                             </div>
+                        </div>
 
-                            {/* FILE UPLOAD */}
-                            <div className="grid gap-2">
-                                <Label htmlFor="pdf_file">Situational Report</Label>
-                                <Input id="pdf_file" type="file" onChange={handleFileChange} />
-                                <InputError message={errors.pdf_file} />
-                            </div>
+                        {/* FILE UPLOAD */}
+                        <div className="grid gap-2">
+                            <Label htmlFor="pdf_file">Situational Report</Label>
+                            <Input id="pdf_file" type="file" onChange={handleFileChange} />
+                            <InputError message={errors.pdf_file} />
+                        </div>
 
-                            {/* PURPOSE */}
-                            <div className="grid gap-2">
-                                <Label htmlFor="purpose">Purpose</Label>
-                                <Textarea id="purpose" value={data.purpose} onChange={(e) => setData('purpose', e.target.value)} />
-                                <InputError message={errors.purpose} />
-                            </div>
+                        {/* PURPOSE */}
+                        <div className="grid gap-2">
+                            <Label htmlFor="purpose">Purpose</Label>
+                            <Textarea id="purpose" value={data.purpose} onChange={(e) => setData('purpose', e.target.value)} />
+                            <InputError message={errors.purpose} />
+                        </div>
 
-                            {/* SUBMIT BUTTON */}
-                            <Button
-                                type="submit"
-                                className="mt-4 w-full"
-                                tabIndex={4}
-                                disabled={processing || (showCustomInput && !data.type_of_disaster.trim())}
-                            >
+                        {/* SUBMIT BUTTON */}
+                        <div className="mt-4 flex justify-end gap-4">
+                            <Button type="button" variant="secondary">
+                                Clear
+                            </Button>
+                            <Button type="submit" tabIndex={4} disabled={processing || (showCustomInput && !data.type_of_disaster.trim())}>
                                 {processing ? (
                                     <>
                                         <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />

@@ -128,8 +128,8 @@ export default function PostRequestIndex({ posts_request }: { posts_request: Pos
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <Link href={route('posts_request.create')}>
                         <Button>
-                            <Plus className="h-4 w-4" />
-                            Create Post
+                            <Plus />
+                            Create
                         </Button>
                     </Link>
 

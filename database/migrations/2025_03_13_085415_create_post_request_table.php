@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('date_validated')->nullable();
             $table->string('city_municipality')->nullable();
             $table->string('province')->nullable();
-            $table->string('pdf_file')->nullable()->nullable();
+            $table->string('pdf_file')->nullable();
             // $table->string('region');
             // $table->string('request_to');
             $table->string('remarks')->nullable();
