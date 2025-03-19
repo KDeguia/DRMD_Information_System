@@ -16,14 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('request_no')->unique()->nullable();
             $table->string('date_of_request')->nullable();
-            $table->string('type_of_assistance')->nullable();
             $table->string('type_of_disaster')->nullable();
-            $table->integer('quantity')->nullable();
-            $table->string('particular')->nullable();
             $table->integer('recommended_quntity')->nullable();
             $table->integer('total_affected_families')->nullable();
             $table->longText('purpose')->nullable();
-            $table->string('mode_of_transporation')->nullable();
+            $table->string('mode_of_transportation')->nullable();
             $table->string('validated_by')->nullable();
             $table->string('validated')->nullable();
             $table->string('date_validated')->nullable();

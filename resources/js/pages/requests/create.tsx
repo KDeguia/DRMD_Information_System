@@ -1,18 +1,19 @@
-import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toast } from '@/components/ui/sonner';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import axios from 'axios';
 import { addDays, format } from 'date-fns';
 import { CalendarIcon, LoaderCircle, Trash } from 'lucide-react';
-import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { useFieldArray, useForm as useReactHookForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
+
+import Swal from 'sweetalert2';
 
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -34,6 +35,7 @@ type RequestForm = {
     province: string;
     city_municipality: string;
     assistance: AssistanceItem[];
+    mode_of_transportation: string;
 };
 
 type AssistanceItem = {
@@ -46,22 +48,29 @@ type Province = { province: string };
 type Municipality = { municipality: string };
 
 const disasterOptions = ['Armed-Conflict', 'Earthquake', 'Flood', 'Typhoon', 'Fire', 'Landslide', 'Custom'];
+const assistanceTypes = [
+    { label: 'Food Items', value: 'food-item' },
+    { label: 'Non-Food Items', value: 'non-food-item' },
+];
 
 export default function CreateRequest() {
-    // Inertia form for submission
-    const { data, setData, post, processing, errors, reset } = useForm<RequestForm>({
-        type_of_disaster: '',
-        purpose: '',
-        pdf_file: null,
-        date_of_request: '',
-        province: '',
-        city_municipality: '',
-        assistance: [],
-    });
-
-    // React Hook Form for handling field arrays
-    const { control, handleSubmit, setValue, watch, register } = useReactHookForm<RequestForm>({
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        control,
+        watch,
+        reset,
+        formState: { errors, isSubmitting },
+    } = useForm<RequestForm>({
         defaultValues: {
+            type_of_disaster: '',
+            purpose: '',
+            pdf_file: null,
+            date_of_request: '',
+            province: '',
+            city_municipality: '',
+            mode_of_transportation: '',
             assistance: [],
         },
     });
@@ -72,6 +81,7 @@ export default function CreateRequest() {
     });
 
     const watchAssistance = watch('assistance');
+    const watchDisaster = watch('type_of_disaster');
 
     const [date, setDate] = useState<Date>();
     const [showCustomInput, setShowCustomInput] = useState(false);
@@ -82,7 +92,8 @@ export default function CreateRequest() {
     const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
 
     const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
-    const [selectedMunicipality, setSelectedMunicipality] = useState<string | null>(null);
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         axios
@@ -97,7 +108,6 @@ export default function CreateRequest() {
                 .get(`/municipalities/${selectedProvince}`)
                 .then((res) => {
                     setMunicipalities(res.data);
-                    setSelectedMunicipality(null);
                 })
                 .catch(console.error);
         }
@@ -109,24 +119,19 @@ export default function CreateRequest() {
         }
     }, [showCustomInput]);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: keyof RequestForm) => {
-        const file = e.target.files?.[0];
-        if (file) setData(fieldName, file);
-    };
-
     const handleDisasterChange = (value: string) => {
         if (value === 'Custom') {
             setShowCustomInput(true);
-            setData('type_of_disaster', '');
+            setValue('type_of_disaster', '');
         } else {
             setShowCustomInput(false);
             setCustomInputError('');
-            setData('type_of_disaster', value);
+            setValue('type_of_disaster', value);
         }
     };
 
-    const validate = () => {
-        if (showCustomInput && (!data.type_of_disaster || data.type_of_disaster.trim() === '')) {
+    const validateCustomDisaster = (): boolean => {
+        if (showCustomInput && (!watchDisaster || watchDisaster.trim() === '')) {
             setCustomInputError('Please specify the disaster type.');
             return false;
         }
@@ -134,17 +139,77 @@ export default function CreateRequest() {
         return true;
     };
 
-    const onSubmit = (formData: RequestForm) => {
-        if (!validate()) return;
+    const onSubmit = async (formData: RequestForm) => {
+        if (!validateCustomDisaster()) return;
 
-        const finalData = {
-            ...data,
-            assistance: formData.assistance,
+        const payload = {
+            ...formData,
         };
 
-        post(route('posts_request.store'), {
-            onSuccess: () => reset(),
-        });
+        const formPayload = new FormData();
+
+        // Loop over each key in payload except assistance.
+        for (const key in payload) {
+            if (key !== 'assistance') {
+                formPayload.append(key, (payload[key as keyof RequestForm] ?? '').toString());
+            }
+        }
+
+        // Append assistance items properly.
+        if (Array.isArray(payload.assistance)) {
+            payload.assistance.forEach((item, index) => {
+                formPayload.append(`assistance[${index}][type_of_assistance]`, item.type_of_assistance);
+                formPayload.append(`assistance[${index}][particular]`, item.particular);
+                formPayload.append(`assistance[${index}][quantity]`, item.quantity.toString());
+            });
+        }
+
+        if (payload.assistance.length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please add at least one assistance item.',
+            });
+            return;
+        }
+
+        // Append the file with its filename.
+        if (payload.pdf_file) {
+            formPayload.append('pdf_file', payload.pdf_file, payload.pdf_file.name);
+        }
+
+        try {
+            await axios.post('/posts_request', formPayload, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            reset();
+
+            Swal.fire({
+                title: 'Successful!',
+                text: 'Request created!',
+                icon: 'success',
+                confirmButtonText: 'OK',
+            }).then(() => {
+                router.visit('/posts_request');
+            });
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Make sure all the inputs are correct and complete!',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                });
+            }
+        }
     };
 
     return (
@@ -153,14 +218,13 @@ export default function CreateRequest() {
 
             <section className="flex h-full flex-1 flex-col gap-2 rounded-xl bg-gray-100 p-4 dark:bg-gray-950">
                 <Card className="mx-auto w-full max-w-3xl p-4">
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" id="create-request-form">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" disabled={isSubmitting}>
                         {/* Date Picker */}
                         <div className="grid gap-2">
                             <Label htmlFor="date_of_request">Date of Request</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
-                                        id="date_of_request"
                                         variant="outline"
                                         className={cn('w-[240px] justify-start text-left font-normal', !date && 'text-muted-foreground')}
                                     >
@@ -173,7 +237,7 @@ export default function CreateRequest() {
                                         onValueChange={(value) => {
                                             const selectedDate = addDays(new Date(), parseInt(value));
                                             setDate(selectedDate);
-                                            setData('date_of_request', format(selectedDate, 'MM/dd/yyyy'));
+                                            setValue('date_of_request', format(selectedDate, 'yyyy-MM-dd'));
                                         }}
                                     >
                                         <SelectTrigger>
@@ -186,14 +250,13 @@ export default function CreateRequest() {
                                             <SelectItem value="7">In a week</SelectItem>
                                         </SelectContent>
                                     </Select>
-
                                     <div className="rounded-md border">
                                         <Calendar
                                             mode="single"
                                             selected={date}
                                             onSelect={(selected) => {
                                                 setDate(selected);
-                                                if (selected) setData('date_of_request', format(selected, 'MM/dd/yyyy'));
+                                                if (selected) setValue('date_of_request', format(selected, 'MM/dd/yyyy'));
                                             }}
                                         />
                                     </div>
@@ -204,12 +267,8 @@ export default function CreateRequest() {
                         {/* Type of Disaster */}
                         <div className="grid gap-2">
                             <Label htmlFor="type_of_disaster">Type of Disaster</Label>
-                            <Select
-                                value={showCustomInput ? 'Custom' : data.type_of_disaster}
-                                onValueChange={handleDisasterChange}
-                                name="type_of_disaster"
-                            >
-                                <SelectTrigger id="type_of_disaster">
+                            <Select value={showCustomInput ? 'Custom' : watchDisaster} onValueChange={handleDisasterChange}>
+                                <SelectTrigger>
                                     <SelectValue placeholder="Select a disaster type" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -224,20 +283,10 @@ export default function CreateRequest() {
                             {showCustomInput && (
                                 <div className="mt-2">
                                     <Label htmlFor="custom_disaster">Specify Disaster Type</Label>
-                                    <Input
-                                        ref={customInputRef}
-                                        id="custom_disaster"
-                                        name="custom_disaster"
-                                        type="text"
-                                        placeholder="Enter custom disaster type..."
-                                        value={data.type_of_disaster}
-                                        onChange={(e) => setData('type_of_disaster', e.target.value)}
-                                    />
+                                    <Input ref={customInputRef} {...register('type_of_disaster')} placeholder="Enter custom disaster type..." />
                                     {customInputError && <p className="mt-1 text-sm text-red-500">{customInputError}</p>}
                                 </div>
                             )}
-
-                            <InputError message={errors.type_of_disaster} />
                         </div>
 
                         {/* Province and Municipality */}
@@ -245,13 +294,13 @@ export default function CreateRequest() {
                             <div className="grid gap-2">
                                 <Label htmlFor="province">Province</Label>
                                 <Select
-                                    name="province"
                                     onValueChange={(value) => {
                                         setSelectedProvince(value);
-                                        setData('province', value);
+                                        setValue('province', value);
+                                        setValue('city_municipality', ''); // ✅ Reset municipality when province changes
                                     }}
                                 >
-                                    <SelectTrigger id="province">
+                                    <SelectTrigger>
                                         <SelectValue placeholder="Select a province" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -269,15 +318,8 @@ export default function CreateRequest() {
 
                             <div className="grid gap-2">
                                 <Label htmlFor="city_municipality">Municipality</Label>
-                                <Select
-                                    name="city_municipality"
-                                    disabled={!selectedProvince}
-                                    onValueChange={(value) => {
-                                        setSelectedMunicipality(value);
-                                        setData('city_municipality', value);
-                                    }}
-                                >
-                                    <SelectTrigger id="city_municipality">
+                                <Select disabled={!selectedProvince} onValueChange={(value) => setValue('city_municipality', value)}>
+                                    <SelectTrigger>
                                         <SelectValue placeholder={selectedProvince ? 'Select a municipality' : 'Select province first'} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -294,7 +336,7 @@ export default function CreateRequest() {
                             </div>
                         </div>
 
-                        {/* Assistance Section with useFieldArray */}
+                        {/* Assistance */}
                         <div className="grid gap-4">
                             <div className="flex items-center justify-between">
                                 <Label>Assistance Requested</Label>
@@ -315,8 +357,11 @@ export default function CreateRequest() {
                                                 <SelectValue placeholder="Select assistance" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="food-item">Food Items</SelectItem>
-                                                <SelectItem value="non-food-item">Non-Food Items</SelectItem>
+                                                {assistanceTypes.map((item) => (
+                                                    <SelectItem key={item.value} value={item.value}>
+                                                        {item.label}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -341,11 +386,7 @@ export default function CreateRequest() {
                                     <div className="flex items-end space-x-2">
                                         <div className="grid w-full gap-2">
                                             <Label>Quantity</Label>
-                                            <Input
-                                                type="number"
-                                                {...register(`assistance.${index}.quantity`, { valueAsNumber: true })}
-                                                defaultValue={field.quantity}
-                                            />
+                                            <Input type="number" {...register(`assistance.${index}.quantity`, { valueAsNumber: true })} />
                                         </div>
                                         <Button variant="destructive" type="button" onClick={() => remove(index)}>
                                             <Trash className="h-4 w-4" />
@@ -359,14 +400,13 @@ export default function CreateRequest() {
                         <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="purpose">Purpose</Label>
-                                <Textarea id="purpose" name="purpose" value={data.purpose} onChange={(e) => setData('purpose', e.target.value)} />
-                                <InputError message={errors.purpose} />
+                                <Textarea {...register('purpose')} />
                             </div>
 
                             <div className="grid gap-2">
                                 <Label htmlFor="mode_of_transportation">Mode of Transportation</Label>
-                                <Select name="mode_of_transportation">
-                                    <SelectTrigger id="mode_of_transportation">
+                                <Select onValueChange={(value) => setValue('mode_of_transportation' as keyof RequestForm, value)}>
+                                    <SelectTrigger>
                                         <SelectValue placeholder="Select a mode" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -377,43 +417,63 @@ export default function CreateRequest() {
                             </div>
                         </div>
 
-                        {/* File Uploads */}
+                        {/* File Upload */}
                         <div className="grid grid-cols-2 gap-4 p-4">
                             <div className="grid gap-4">
-                                <div>
-                                    <Label htmlFor="pdf_file">Certificate of Depletion of QRF Fund</Label>
-                                    <Input id="pdf_file" name="pdf_file" type="file" onChange={(e) => handleFileChange(e, 'pdf_file')} />
-                                    <InputError message={errors.pdf_file} />
-                                    <Label htmlFor="pdf_filed">Attach Request Letter</Label>
-                                    <Input id="pdf_filed" name="pdf_filed" type="file" onChange={(e) => handleFileChange(e, 'pdf_file')} />
-                                    <InputError message={errors.pdf_file} />
-                                    <Label htmlFor="pdf_filed1">Attach Report of Affected Families</Label>
-                                    <Input id="pdf_filed1" name="pdf_filed1" type="file" onChange={(e) => handleFileChange(e, 'pdf_file')} />
-                                    <InputError message={errors.pdf_file} />
-                                </div>
-                            </div>
+                                <Label htmlFor="pdf_file">Certificate of Depletion of QRF Fund</Label>
+                                <Input
+                                    aria-label="Certificate of Depletion PDF Upload"
+                                    type="file"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0] ?? null;
 
+                                        if (file && file.size > 5 * 1024 * 1024) {
+                                            toast({
+                                                variant: 'destructive',
+                                                title: 'File too large',
+                                                description: 'Maximum allowed file size is 5MB.',
+                                            });
+                                            if (fileInputRef.current) {
+                                                fileInputRef.current.value = '';
+                                            }
+                                            setValue('pdf_file', null);
+                                            return;
+                                        }
+
+                                        setValue('pdf_file', file);
+                                    }}
+                                />
+                            </div>
                             <div className="flex items-start gap-4">
                                 <Separator orientation="vertical" className="h-full w-[6px]" />
                                 <ul className="list-disc space-y-2 pl-4 text-sm">
                                     <li>Files must be in PDF format</li>
                                     <li>Max file size is 5MB</li>
                                     <li>Attach all required documents</li>
-                                    <li>Ensure all files are updated</li>
                                 </ul>
                             </div>
                         </div>
 
                         {/* Submit */}
                         <div className="mt-4 flex justify-end gap-4">
-                            <Button type="button" variant="secondary" onClick={() => reset()}>
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                onClick={() => {
+                                    reset();
+                                    setShowCustomInput(false);
+                                    setCustomInputError('');
+                                    if (fileInputRef.current) {
+                                        fileInputRef.current.value = '';
+                                    }
+                                }}
+                            >
                                 Clear
                             </Button>
-                            <Button type="submit" disabled={processing || (showCustomInput && !data.type_of_disaster.trim())}>
-                                {processing ? (
+                            <Button type="submit" disabled={isSubmitting || (showCustomInput && !watchDisaster?.trim())}>
+                                {isSubmitting ? (
                                     <>
-                                        <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                                        Processing...
+                                        <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> Processing...
                                     </>
                                 ) : (
                                     'Submit'
